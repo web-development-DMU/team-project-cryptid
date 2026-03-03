@@ -1,73 +1,148 @@
-@media (max-width: 875px) {
+@media (max-width: 1070px) {
     main {
+        transform: scale(0.7) !important;
+        transform-origin: top left;
+        width: 142.857142857% !important;
         flex-direction: column;
         align-items: center;
         text-align: center;
+        #side-r {
+            margin-top: 0px;
+        }
+    }
+    body {
+        max-height: 1000px;
+    }
+    .task-table {
+        font-size: 0.5rem;
     }
 
     #recently-collected {
         width: 100% !important;
         align-items: center;
         text-align: center;
+        img {
+            max-width: 100px;
+        }
     }
 }
-main {
-    flex-wrap: wrap;
-    align-content: center;
+body {
+    height: fit-content !important;
+    table {
+        display: flex;
+        width: 450px !important;
+    }
+    table, tr, td {
+        text-align: center !important;
+        width: 450px !important;
+        font-size: 1.5rem;
+        height: 80px;
+    }
+}
+.d-flex {
+    align-items: center !important;
     justify-content: space-between;
-    .d-flex {
-        align-items: center !important;
-        justify-content: space-between;
-    }
-    
-    #user-details {
-        width: 250px;
-        min-width: 170px;
-        border: 1px solid black !important;
-        padding: 0 !important;
-        margin: 20px !important;
+}    
+.add-task-btn {
+    width: 50px;
+    height: 50px;
+    line-height: 1em;
+    text-align: center;
+    text-wrap: inherit;
+}
+.task-table {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 500px !important ;
+    max-height: 900px !important;
+    .upcoming-task {
+        font-size: 1.5rem;
+        border: 2px solid black;
+        border-bottom: 0;
         * {
-            margin: 0;
-        }
-        div.rounded-circle {
-            height: 40px !important;
-            width: 40px !important;
-            line-height: 1em;
             text-align: center;
-        }
-        img {
-            max-width: 40px;
+            margin: 0px;
         }
     }
-    .add-task-btn {
-        width: 50px;
-        height: 50px;
+    .upcoming-details {
+        padding: 5px 30px 5px 30px !important;
+        width: 34%;
+        text-wrap: wrap;
+    }
+    .upcoming-details.middle {
+        border-left: 2px solid black;
+        border-right: 2px solid black;
+    }
+    .upcoming-task.last {
+        border-bottom: 2px solid black;
+    }
+    .upcoming-task-btns {
+        padding: 5px 40px;
+        width: inherit;
+        margin-top: 20px;
+        input {
+            vertical-align: middle !important;
+        }
+        #view-all-tasks-btn {
+            float: left;
+            bottom: 5px;
+            margin-top: 12px;
+        }
+        #add-task-btn {
+            float: right;
+        }
+    }
+}
+#user-details {
+    width: fit-content;
+    min-width: 200px;
+    max-width: 445px;
+    border: 1px solid black !important;
+    padding: 0 !important;
+    margin-top: 10px;
+    margin-bottom: 20px !important;
+    * {
+        margin: 0;
+    }
+    #username {
+        font-size: 2.5rem;
+        text-wrap: wrap;
+        padding: 15px;
+    }
+    div.rounded-circle {
+        height: 40px !important;
+        width: 40px !important;
         line-height: 1em;
         text-align: center;
-        text-wrap: inherit;
     }
-    .task-table {
-        width: 350px !important;
-        height: fit-content;
-        border: 1px solid black !important;
-        .upcoming-task {
-            border: 1px solid blue;
-            * {
-                text-align: center;
-                margin: 0px;
-            }
-            .upcoming-details {
-                padding: 5px 30px 5px 30px !important;
-            }
-        }
-        .upcoming-task-btns {
-            padding: 5px 40px 5px 40px;
-        }
+    img {
+        max-width: 40px;
     }
 }
 #recently-collected {
+    max-width: 700px;
+    width: 700px;
+    margin-top: 90px;
+    margin-bottom:50px;
+    border: 3px solid black;
     img {
-        max-width: 100px;
+        max-width: 190px;
+        width: 100%;
     }
-
+}
+.recent-activity {
+    padding: 10px;
+    text-align: center;
+    font-size: 1.5rem;
+    border: 1px solid black;
+}
+.divider {
+    margin: 30px 50px;
+}
+#side-r {
+    margin-top: -100px;
+}
+#side-L {
+    width: 100%;
 }

@@ -3,7 +3,7 @@
 <script src="js/header.js"></script>
 <link rel="stylesheet" href="./styles/index.css">
 <main class="d-flex">
-    <div>
+    <div id="side-l" class="divider">
         <div id="user-details" class="container-fluid d-flex">
             <img id="profile-picture" class="rounded-circle" src="./imgs/profile-placeholder.jpg">
             <p id="username" class="rounded">Username</p>
@@ -11,61 +11,90 @@
                 <p id="user-level">XP Level</p>
             </div>
         </div>
+        <!-- MAX OF 9 TASKS ALLOWED TO BE DISPLAYED -->
         <div class="task-table rounded">
             <!-- placeholders for upcoming tasks -->
             <!-- Task IDs will be given based on the name of the task and the data-bs-target will be updated to the same name -->
             <!-- clicking the task within the table will either redirect to a task details page, or pop-up a container which gets filled with the details of the clicked task. -->
             <div class="upcoming-task d-flex" onclick="location.href='header.html'">
                 <p class="upcoming-details">Name1</p>
-                <p class="upcoming-details">Time1</p>
+                <p class="upcoming-details middle">Time1</p>
                 <p class="upcoming-details">XP1</p>
             </div>
-            <div class="upcoming-task d-flex">
+            <div class="upcoming-task d-flex" onclick="location.href='header.html'">
                 <p class="upcoming-details">Name1</p>
-                <p class="upcoming-details">Time1</p>
+                <p class="upcoming-details middle">Time1</p>
                 <p class="upcoming-details">XP1</p>
             </div>
-            <div class="upcoming-task d-flex">
+            <div class="upcoming-task d-flex" onclick="location.href='header.html'">
                 <p class="upcoming-details">Name1</p>
-                <p class="upcoming-details">Time1</p>
+                <p class="upcoming-details middle">Time1</p>
                 <p class="upcoming-details">XP1</p>
             </div>
-            <div class="upcoming-task d-flex">
+            <div class="upcoming-task d-flex" onclick="location.href='header.html'">
                 <p class="upcoming-details">Name1</p>
-                <p class="upcoming-details">Time1</p>
+                <p class="upcoming-details middle">Time1</p>
                 <p class="upcoming-details">XP1</p>
             </div>
-            <div class="upcoming-task d-flex">
+            <div class="upcoming-task d-flex" onclick="location.href='header.html'">
                 <p class="upcoming-details">Name1</p>
-                <p class="upcoming-details">Time1</p>
+                <p class="upcoming-details middle">Time1</p>
                 <p class="upcoming-details">XP1</p>
             </div>
-            <div class="upcoming-task d-flex">
+            <div class="upcoming-task d-flex" onclick="location.href='header.html'">
                 <p class="upcoming-details">Name1</p>
-                <p class="upcoming-details">Time1</p>
+                <p class="upcoming-details middle">Time1</p>
                 <p class="upcoming-details">XP1</p>
             </div>
-            <div class="upcoming-task-btns d-flex">
+            <div class="upcoming-task d-flex" onclick="location.href='header.html'">
+                <p class="upcoming-details">Name1</p>
+                <p class="upcoming-details middle">Time1</p>
+                <p class="upcoming-details">XP1</p>
+            </div>
+            <div class="upcoming-task d-flex" onclick="location.href='header.html'">
+                <p class="upcoming-details">Name1</p>
+                <p class="upcoming-details middle">Time1</p>
+                <p class="upcoming-details">XP1</p>
+            </div>
+            <div class="upcoming-task last d-flex">
+                <p class="upcoming-details">Name1</p>
+                <p class="upcoming-details middle">Time1</p>
+                <p class="upcoming-details">XP1</p>
+            </div>
+            <div class="upcoming-task-btns">
                 <input type="button" id="view-all-tasks-btn" class="rounded border border-1 border-dark" onclick="location.href='calendar.html'" value="View All Tasks">
-                <input type="button" class="add-task-btn rounded-circle" value="Add Task" onclick="/*display new task section or redirect to new task page*/">
+                <input type="button" id="add-task-btn" class="add-task-btn rounded-circle" value="Add Task" onclick="/*display new task section or redirect to new task page*/">
             </div>
         </div>
     </div>
-    <div id="recently-collected" class="d-flex">
-        <div class="recent-item">
-            <img src="/imgs/collectible-placeholder.jpg">
+    <div id="side-r" class="divider">
+        <div id="recently-collected" class="d-flex">
+            <div class="recent-item">
+                <img src="/imgs/collectible-placeholder.jpg">
+            </div>
+            <div class="recent-item">
+                <img src="/imgs/collectible-placeholder.jpg">
+            </div>
+            <div class="recent-item">
+                <img src="/imgs/collectible-placeholder.jpg">
+            </div>
+            <div class="recent-item">
+                <img src="/imgs/collectible-placeholder.jpg">
+            </div>
         </div>
-        <div class="recent-item">
-            <img src="/imgs/collectible-placeholder.jpg">
-        </div>
-        <div class="recent-item">
-            <img src="/imgs/collectible-placeholder.jpg">
-        </div>
-        <div class="recent-item">
-            <img src="/imgs/collectible-placeholder.jpg">
-        </div>
-        <div class="recent-item">
-            <img src="/imgs/collectible-placeholder.jpg">
+        <div id="recent-activity">
+            <div class="recent-activity">
+                Friend levelled up
+            </div>
+            <div class="recent-activity">
+                Friend got achievement "achievement"
+            </div>
+            <div class="recent-activity">
+                Friend collected a new item: "item"
+            </div>
+            <div class="recent-activity">
+                Friend has reached new task streak
+            </div>
         </div>
     </div>
 </main>
