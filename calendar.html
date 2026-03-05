@@ -1,0 +1,81 @@
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+<script src="js/header.js"></script>
+<link rel="stylesheet" href="./styles/calendar.css">
+<!--
+    What this page needs (mostly in scripting):
+        on load, day tasks pane shows tasks for current day
+        clicking a day displays pop-up with the day's tasks;
+        clicking a task within the day shows task details;
+        clicking back button on task details hides pane/directs back to day tasks
+-->
+<main class="d-flex w-100">
+    <div id="calendar-container">
+        <div class="calendar-header">
+            <button onclick="changeMonth(-1)">←</button>
+            <h2 id="month-year"></h2>
+            <button onclick="changeMonth(1)">→</button>
+        </div>
+        <div class="calendar-grid" id="calendar"></div>
+    </div>
+    <div id="task-panes" class="d-flex">
+        <div id="daily-tasks">
+            <p id="daily-tasks-date">
+                March 3rd 2026
+            </p>
+            <table>
+                <tr>
+                    <td>Task 1</td>
+                    <td class="cell-shrink">Time Left</td>
+                    <td class="cell-shrink">% Complete</td>
+                    <td class="cell-shrink">50XP</td>
+                </tr>
+                <tr>
+                    <td>Task 2</td>
+                    <td class="cell-shrink">Time Left</td>
+                    <td class="cell-shrink">% Complete</td>
+                    <td class="cell-shrink">10XP</td>
+                </tr>
+                <tr>
+                    <td>Task 3</td>
+                    <td class="cell-shrink">Time Left</td>
+                    <td class="cell-shrink">% Complete</td>
+                    <td class="cell-shrink">35XP</td>
+                </tr>
+                <tr>
+                    <td>Task 2</td>
+                    <td class="cell-shrink">Time Left</td>
+                    <td class="cell-shrink">% Complete</td>
+                    <td class="cell-shrink">10XP</td>
+                </tr>
+                <tr>
+                    <td>Task 2</td>
+                    <td class="cell-shrink">Time Left</td>
+                    <td class="cell-shrink">% Complete</td>
+                    <td class="cell-shrink">10XP</td>
+                </tr>
+                <tr>
+                    <td>Task 2</td>
+                    <td class="cell-shrink">Time Left</td>
+                    <td class="cell-shrink">% Complete</td>
+                    <td class="cell-shrink">10XP</td>
+                </tr>
+            </table>
+                <!-- If tasks can span multiple days, add task will autofill the start date for the day being viewed -->
+                <input type="button" id="add-task-btn" class="add-task-btn rounded" value="Add Task" onclick="/*display new task section or redirect to new task page*/">
+        </div>
+    </div>
+    <!-- this pane will display the task details that the user hovers over, allowing much easier design, scaling and positioning -->
+    <!-- The pane will be displayed just above the user's cursor (but NOT follow it), making positioning the pane much easier -->
+    <!-- There will be a simple script to move the pane and fill the details with the hovered task. The pane will not be clickable in any way -->
+    <div id="task-view-pane" class="rounded">
+        <p id="task-name">Name</p>
+        <p id="task-tile">Time left</p>
+        <p id="task-percentage">% Complete</p>
+        <p id="task-objective">Objective 1</p>
+        <p id="task-objective">Objective 2</p>
+        <p id="task-objective">Objective 3</p>
+        <p id="task-xp">50xp</p>
+    </div>
+    <!-- Either import task detail file or create in each page it is required -->
+</main>
+<script src="js/calendar.js"></script>
