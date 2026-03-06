@@ -1,0 +1,10 @@
+{ 
+  "tasks":{
+    "start": "deno --watch --allow-all main.mjs"
+  },
+  "imports": {
+    "@db/sqlite": "jsr:@db/sqlite@^0.13.0",
+    "std/http": "https://deno.land/std@0.224.0/http/server.ts",
+    "std/file": "https://deno.land/std@0.91.0/http/file_server.ts"
+  }
+}
