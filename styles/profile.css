@@ -1,0 +1,123 @@
+img {
+    image-rendering: pixelated;
+}
+section h3 {
+    background-color: purple;
+    margin: 0px;
+    color: white;
+}
+.favourite-item {
+    display: grid;
+    img {
+        width: 100%;
+    }
+}
+.item {
+    width: 100%;
+}
+.item-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0px;
+    max-height: 300px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+}
+.profile-addition {
+    position: absolute;
+    bottom: -20px;
+    margin: 0;
+    width: 60px;
+    height: 60px;
+    font-size: 0.7rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+}
+.container-profile {
+    position: relative;
+    padding-top: 30px;
+    img {
+        max-width: 150px;
+    }
+}
+#side-l {
+    flex-direction: column;
+    padding-left: 40px;
+    width: 650px;
+    min-width: 450px;
+    max-width: 900px;
+    #page-username {
+        min-width: 100%;
+        padding-left: 5px;
+        margin-top: 20px;
+        text-decoration: underline;
+    }
+    #container-item-showcase {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+    }
+}
+#side-r {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    margin-left: auto;
+    margin-right: 80px;
+    min-width: 350px;
+    max-width: 900px;
+}
+#profile-picture {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+}
+#change-pfp-btn {
+    left: 0;
+}
+#level-display {
+    right: 0;
+    background-color: lightgrey;
+    font-size: 1.2rem;
+    line-height: 200%;
+}
+#container-user-details {
+    margin-top: 30px;
+    #username {
+        text-align: center;
+        font-size: 2rem;
+        text-decoration: underline;
+    }
+    #bio {
+        height: 250px;
+        width: 300px;
+        resize: none;
+    }
+}
+#container-btns {
+    padding-top: 20px;
+    font-size: 1.5rem;
+}
+@media (max-width: 1000px) {
+    main {
+        flex-direction: column;
+        align-items: center;
+    }
+    #side-l {
+        max-width: none;
+        width: 90%;
+        padding-left: 0;
+        scrollbar-width: thin;
+    }
+    #side-r {
+        margin-left: 0;
+        width: 80% !important;
+    }
+    #container-user-details {
+        width: 80%;
+        #bio {
+            width: 100%;
+        }
+    }
+}

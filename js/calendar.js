@@ -3,17 +3,21 @@ document.title = "Calendar";
 let currentDate = new Date();
 
 function renderCalendar() {
+    // Get calendar and date elements
     const calendar = document.getElementById("calendar");
     const monthYear = document.getElementById("month-year");
 
+    // Clear calendar
     calendar.innerHTML = "";
 
+    // Get current month and year
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth();
 
-    monthYear.textContent =
-        currentDate.toLocaleString("default", { month: "long" }) + " " + year;
+    // Display month and year
+    monthYear.textContent = currentDate.toLocaleString("default", { month: "long" }) + " " + year;
 
+    // Get first day in current month and days in said month
     const firstDay = new Date(year, month, 1).getDay();
     const daysInMonth = new Date(year, month + 1, 0).getDate();
 
