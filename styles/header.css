@@ -18,8 +18,11 @@ body {
     width: calc(100% + 10px) !important;
     left: -5px;
 }
+.navbar {
+    padding: 0px !important;
+}
 .container-fluid {
-    max-height: 45px !important;
+    max-height: 40px !important;
     padding-right: 5px !important;
 }
 .nav-link {
@@ -29,23 +32,26 @@ body {
     background-color: #dcdcdc;
 }
 .profile-img {
-    width: 45px;
-    height: 45px;
+    width: 38px;
+    height: 38px;
     object-fit: cover;
     border: 1px solid #aaa;
 }
 #profile-dropdown {
     position: absolute;
     right: 5px;
-    top: 5px;
 }
 .dropdown-menu {
     border-radius: 1;
-    margin-top: 5px !important;
+    margin-top: 1px !important;
     right: -5px !important;
     border: 1px solid;
 }
 .navbar-nav {
     max-width: 120px !important;
     background-color: #e9e9e9;
+    margin: 0px !important;
+}
+.navbar-toggler {
+    --bs-navbar-toggler-focus-width: 0px;
 }

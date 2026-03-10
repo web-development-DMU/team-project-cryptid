@@ -51,7 +51,7 @@ section h3 {
     #page-username {
         min-width: 100%;
         padding-left: 5px;
-        margin-top: 20px;
+        margin: 0px;
         text-decoration: underline;
     }
     #container-item-showcase {

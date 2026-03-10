@@ -89,11 +89,11 @@ body {
         border-bottom: 2px solid black;
     }
     .upcoming-task-btns {
-        padding: 5px 40px;
+        padding: 0 40px;
         width: inherit;
         align-items: center !important;
         align-content: center !important;
-        margin-top: 20px;
+        margin-top: 5px;
         font-size: 1rem;
         input {
             vertical-align: middle !important;
@@ -152,7 +152,7 @@ body {
     border: 1px solid black;
 }
 .divider {
-    margin: 30px 50px;
+    margin: 10px 50px;
 }
 #side-r {
     margin-top: -100px;
