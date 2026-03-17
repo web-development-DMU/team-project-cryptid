@@ -1,4 +1,5 @@
 import getId from "/js/getid.js";
+import * as cookie from "https://deno.land/std/http/cookie.ts";
 
 console.log("script loaded");
 
@@ -23,8 +24,8 @@ document.getElementById("login").addEventListener("submit", async (e) => {
         // Log in
         if (result.success) {
             alert("login successful");
-
-            document.cookie = `session=${result.userId}; path=/`;
+            const cookie = {name: 1, value: 1};
+            setCookie()
 
             window.location.href = "/index.html";
         } else {
