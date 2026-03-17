@@ -15,3 +15,4 @@ for (var key in items) {
         db.exec(`ALTER table inventory ADD "${key}" STRING`);
     }
 }
+
