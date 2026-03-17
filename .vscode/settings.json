@@ -1,4 +1,4 @@
 {
     "deno.enable": true,
-    "deno.path": "C:\\Users\\brhex\\.deno\\bin\\deno.exe"
+    "deno.path": "/usr/bin/deno"
 }

@@ -1,9 +1,37 @@
-document.addEventListener("DOMContentLoaded", () => {
-    console.log("loaded");
-})
-async function attemptLogin() {
-    console.log("deez")
-    
-    const email = document.getElementById("login-email").value;
-    const password = document.getElementById("login-password").value;
-}
+import getId from "/js/getid.js";
+
+console.log("script loaded");
+
+document.getElementById("login").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const email = getId("email").value;
+    const password = getId("password").value;
+
+    try {
+        // Send login data to server
+        const response = await fetch("/api/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ email, password })
+        });
+
+        const result = await response.json();
+
+        // Log in
+        if (result.success) {
+            alert("login successful");
+
+            document.cookie = `session=${result.userId}; path=/`;
+
+            window.location.href = "/index.html";
+        } else {
+            alert("Invalid email or password");
+        }
+    } catch (err) {
+        console.error(err);
+        alert("Something went wrong");
+    }
+});

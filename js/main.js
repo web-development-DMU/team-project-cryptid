@@ -1,4 +1,2 @@
-import { server } from './server.js';
-import createDB from './db.js'
-
-createDB("test");
+import server from './server.js';
+import { db } from './db.js';
