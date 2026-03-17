@@ -1,0 +1,29 @@
+{
+    "border_1": {
+        "id": "1",
+        "item_name": "Red Border",
+        "item_type": "border",
+        "unlock": {
+            "account_level": 2
+        }
+    },
+    
+    "border_2": {
+        "id": "2",
+        "item_name": "Blue Border",
+        "item_type": "border",
+        "unlock": {
+            "account_level": 3
+        }
+    },
+    
+    "border_3": {
+        "id": "3",
+        "item_name": "Green Border",
+        "item_type": "border",
+        "unlock": {
+            "account_level": 4
+        }
+    }
+    
+}
