@@ -1,8 +1,6 @@
 //import { serve } from "std/http";
 import { serveFile } from "https://deno.land/std@0.224.0/http/file_server.ts";
-import { db } from "./db.js";
 import { serve } from "std/http";
-import findUser from "./models/users.js";
 
 // async function server(request) {
 //     const path = new URL(request.url).pathname;
@@ -31,15 +29,16 @@ export default async function server(request) {
   console.log("Request for:", path);
 
   // login API
-  if (path === "/api/login" && request.method === "POST") {
+  if (path === "/html/login" && request.method === "POST") {
     const body = await request.json(),
           email = body.email,
-          password = body.password,
+          password = body.password;
 
-          result = [...db.query(
+          /*result = [...db.query(
             "SELECT * FROM users WHERE username = ? AND password = ?",
             [email, password]
-          )];
+          )];*/
+          return "yes";
     return Response.json({result: result});
   }
 
@@ -51,6 +50,7 @@ export default async function server(request) {
 
   // default to index page (redirected to login if no valid login cookie
   if (path ==="/") {
+    console.log(cookie);
     if (!cookie || !cookie.includes("session=")) filePath = "./html/login.html";
     else filePath = "./html/index.html";
   }
