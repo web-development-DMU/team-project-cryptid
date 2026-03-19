@@ -1,5 +1,4 @@
 import getId from "/js/getid.js";
-import * as cookie from "https://deno.land/std/http/cookie.ts";
 
 console.log("script loaded");
 
@@ -13,10 +12,11 @@ document.getElementById("login").addEventListener("submit", async (e) => {
         // Send login data to server
         const response = await fetch("/api/login", {
             method: "POST",
+            credentials: "include", // Important as cookies may not be handled properly
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ email, password })
+            body: JSON.stringify({email, password})
         });
 
         const result = await response.json();
@@ -24,10 +24,7 @@ document.getElementById("login").addEventListener("submit", async (e) => {
         // Log in
         if (result.success) {
             alert("login successful");
-            const cookie = {name: 1, value: 1};
-            setCookie()
-
-            window.location.href = "/index.html";
+            window.location.href = "/home";
         } else {
             alert("Invalid email or password");
         }
