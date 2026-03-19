@@ -1,6 +1,6 @@
 { 
   "tasks":{
-    "start": "deno --watch --allow-all main.js"
+    "start": "deno --watch --allow-all js/main.js"
   },
   "imports": {
     "@db/sqlite": "jsr:@db/sqlite@^0.13.0",
