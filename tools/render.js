@@ -74,7 +74,7 @@ export function render(page) {
                                 <li><a class="dropdown-item" href="/html/progression.html">My Progress</a></li>
                                 <li><a class="dropdown-item" href="/html/preferences.html">Preferences</a></li>
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="#">Sign Out</a></li>
+                                <li><a class="dropdown-item" href="/logout">Sign Out</a></li>
                             </ul>
                         </div>
                     </div>
@@ -91,6 +91,7 @@ export function render(page) {
                     <meta name="viewport" content="width=device-width, initial-scale=1.0">
                     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
                     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+                    <script type="module" src="/js/login.js"></script>
                     <link rel="stylesheet" href="/styles/login.css">
                     <title>Login</title>
                 </head>
@@ -98,6 +99,7 @@ export function render(page) {
                     <main>
                         <h1 id="title">Login</h1><br>
                         <form id="login" class="d-flex flex-column">
+                            <label id="incorrect" class="text-danger" style="display: none; text-align: center;">Incorrect email or password</label>
                             <label for="email">Email Address</label><br>
                             <input type="text" id="email" name="email" class="rounded"><br><br><br>
                             <label for="password">Password</label><br>
@@ -118,7 +120,7 @@ export function render(page) {
                     <meta charset="UTF-8">
                     <meta name="viewport" content="width=device-width, initial-scale=1.0">
                     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-                    <script src="/js/register.js"></script>
+                    <script type="module" src="/js/register.js"></script>
                     <link rel="stylesheet" href="/styles/login.css">
                     <title>Register</title>
                 </head>

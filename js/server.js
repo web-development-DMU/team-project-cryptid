@@ -1,32 +1,12 @@
 //import { serve } from "std/http";
 import { serveFile } from "https://deno.land/std@0.224.0/http/file_server.ts";
+import { getCookies } from "https://deno.land/std@0.224.0/http/cookie.ts";
 import { serveDir } from "@std/http";
 import { notFound } from "../handlers/notFound.js";
 import { render } from "../tools/render.js";
 import { loginHandler } from "../handlers/api/login.js";
 import { createUserController } from "../controllers/createUser.js";
-import { getCookies } from "https://deno.land/std@0.224.0/http/cookie.ts";
-
-// async function server(request) {
-//     const path = new URL(request.url).pathname;
-//     console.log("Request for: ", path);
-
-//     return serveFile(request, "./index.html");
-// }
-
-/*export function server(request) {
-  const path = new URL(request.url).pathname;
-  console.log("Request for:", path);
-
-  let filePath = "." + path;
-
-  // default page
-  if (path === "/") {
-    filePath = "./index.html";
-  }
-
-  return serveFile(request, filePath);
-}*/
+import { logoutController } from "../controllers/logout.js";
 
 export default async function server(request) {
   const path = new URL(request.url).pathname,
@@ -34,12 +14,7 @@ export default async function server(request) {
         cookies = getCookies(request.headers),
         session = cookies.session;
   console.log("Request for: " + path)
-  console.log("session: " + session);
-  // console.log(`Request for: ${path}, method: ${method}`)
   
-  //layout for page/file requests
-  if (path == "certain/path" && method == "GET") return handler;;
-
   // Redirect from localhost/ based on login status
   if ((path === "/" || path === "") && method === "GET") {
     /*
@@ -54,9 +29,27 @@ export default async function server(request) {
     } else {
       return new Response(null, {
         status: 302,
-        headers: {Location: "/login"},
+        headers: {Location: "/home"},
       });
     }
+  }
+
+  // ----------------
+  //    API routes first, else they get skipped and return server error
+  // ----------------
+  // Handling user login
+  if (path === "/api/login" && method === "POST" && !session) {
+    return loginHandler(request);
+  }
+
+  // Handling user registration
+  if (path === "/api/register" && method === "POST" && !session) {
+    return createUserController(request);
+  }
+
+  // Handling user logout
+  if (path === "/logout" && method === "GET") {
+    return logoutController(request);
   }
 
   // Serving page routes
@@ -72,14 +65,13 @@ export default async function server(request) {
     if (path === "/preferences" && method === "GET") return render("preferences");
     if (path === "/progression" && method === "GET") return render("progression");
     if (path === "/logout" && method === "GET") return render("logout");
-  } else if (!path.includes("/styles") && !path.includes("/assets")) {
+  } else if (!path.startsWith("/styles") && !path.startsWith("/assets") && !path.startsWith("/js")) {
     return new Response(null, {
       status: 302,
       headers: {Location: "/login"},
     });
   }
 
-  
   // Serving static files
   if (method == "GET") 
     try {
@@ -90,16 +82,6 @@ export default async function server(request) {
     }
   
   return render();
-
-  // Handling user login
-  if (path === "/api/login" && method === "POST") {
-    return loginHandler(request);
-  }
-
-  // Handling user registration
-  if (path === "/api/register" && method === "POST") {
-    return createUserController(request);
-  }
 }
 
 

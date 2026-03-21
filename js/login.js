@@ -1,16 +1,15 @@
 import getId from "/js/getid.js";
 
-console.log("script loaded");
-
 document.getElementById("login").addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const email = getId("email").value;
-    const password = getId("password").value;
+    const   email = getId("email").value,
+            password = getId("password").value;
+    let response, result;
 
+    // Send login data to server, catch errors
     try {
-        // Send login data to server
-        const response = await fetch("/api/login", {
+        response = await fetch("/api/login", {
             method: "POST",
             credentials: "include", // Important as cookies may not be handled properly
             headers: {
@@ -18,18 +17,34 @@ document.getElementById("login").addEventListener("submit", async (e) => {
             },
             body: JSON.stringify({email, password})
         });
+    } catch(err) {
+        console.error("Network or fetch error:", err);
+        alert("Unable to contact server. Please try again.");
+        return;
+    }
 
-        const result = await response.json();
+    // Catch JSON parsing errors
+    try {
+        const contentType = response.headers.get("Content-Type");
+        if (!contentType?.includes("application/json")) { // If contentType doesn't include "application/json"
+            throw new Error(`Expected JSON, got ${contentType}`);
+        }
+        result = await response.json();
+    } catch(err) {
+        console.error("Error parsing JSON response:", err);
+        alert("Server returned invalid data.");
+        return;
+    }
 
-        // Log in
+    // Handling login result
+    try {
         if (result.success) {
-            alert("login successful");
             window.location.href = "/home";
         } else {
-            alert("Invalid email or password");
+            alert(result.message || "Invalid email or password");
         }
     } catch (err) {
-        console.error(err);
-        alert("Something went wrong");
+        console.error("Error handling response result:", err);
+        alert("Unexpected error occurred.");
     }
 });
