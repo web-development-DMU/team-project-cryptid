@@ -1,4 +1,7 @@
-// export function render() {
+import { getCookies } from "https://deno.land/std@0.224.0/http/cookie.ts";
+import { getFlash } from "../tools/flash.js"
+
+// export function render(page, request) {
 //     const html = `
 // <!DOCTYPE html>
 // <html lang="en">
@@ -7,20 +10,12 @@
 //     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 //     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 //     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-//     <link rel="stylesheet" href="styles/login.css">
-//     <title>Login</title>
+//     <link rel="stylesheet" href="styles/${page}.css">
+//     <title>${page.charAt(0).toUpperCase() + page.slice(1)}</title>
 // </head>
 // <body>
 //     <main>
-//         <h1 id="title">Login</h1><br>
-//         <form id="login" class="d-flex flex-column">
-//             <label for="email">Email Address</label><br>
-//             <input type="text" id="email" name="email" class="rounded"><br><br><br>
-//             <label for="password">Password</label><br>
-//             <input type="password" id="password" name="password" class="rounded"><br><br>
-//             <input type="submit" id="submit" value="Login"><br><br>
-//             <p id="switch">No account? <a href="/register">Register here</a></p>
-//         </form>
+//         ${contents.get(page)}
 //     </main>
 // </body>
 // </html>
@@ -28,7 +23,14 @@
 //     const headers = { "content-type": "text/html" }
 //     return new Response(html, { headers })
 // }
-export function render(page) {
+
+
+
+export function render(page, request) {
+    const headers = new Headers();
+    headers.set('content-type', 'text/html');
+    const flash = getFlash(request.headers, headers)
+
     let html;
     switch (page) {
         case "header": 
@@ -91,19 +93,19 @@ export function render(page) {
                     <meta name="viewport" content="width=device-width, initial-scale=1.0">
                     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
                     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-                    <script type="module" src="/js/login.js"></script>
                     <link rel="stylesheet" href="/styles/login.css">
                     <title>Login</title>
                 </head>
                 <body>
                     <main>
                         <h1 id="title">Login</h1><br>
-                        <form id="login" class="d-flex flex-column">
+                        <form id="login" class="d-flex flex-column", method="post">
                             <label id="incorrect" class="text-danger" style="display: none; text-align: center;">Incorrect email or password</label>
                             <label for="email">Email Address</label><br>
                             <input type="text" id="email" name="email" class="rounded"><br><br><br>
                             <label for="password">Password</label><br>
                             <input type="password" id="password" name="password" class="rounded"><br><br>
+                            ${flash}
                             <input type="submit" id="submit" value="Login"><br><br>
                             <p id="switch">No account? <a href="/register">Register here</a></p>
                         </form>
@@ -120,26 +122,25 @@ export function render(page) {
                     <meta charset="UTF-8">
                     <meta name="viewport" content="width=device-width, initial-scale=1.0">
                     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-                    <script type="module" src="/js/register.js"></script>
                     <link rel="stylesheet" href="/styles/login.css">
                     <title>Register</title>
                 </head>
                 <body id="register-main">
                     <main>
                         <h1 id="title">Register</h1> 
-                        <form id="register" class="d-flex flex-column">
+                        <form id="register" class="d-flex flex-column", method="post">
                             <label for="firstname">First Name</label><br>
-                            <input type="text" id="firstname" name="firstname"><br><br>
+                            <input type="text" id="firstname" name="firstname" required/><br><br>
                             <label for="lastname">Last Name</label><br>
-                            <input type="text" id="lastname" name="lastname"><br><br>
+                            <input type="text" id="lastname" name="lastname" required/><br><br>
                             <label for="username">Username</label><br>
-                            <input type="text" id="username" name="username"><br><br>
+                            <input type="text" id="username" name="username" required/><br><br>
                             <label for="email">Email Address</label><br>
-                            <input type="text" id="email" name="email"><br><br>
+                            <input type="text" id="email" name="email" required/><br><br>
                             <label for="password">Password</label><br>
-                            <input type="password" id="password" name="password"><br><br>
+                            <input type="password" id="password" name="password" required/><br><br>
                             <label for="confirmPassword">Confirm Password</label><br>
-                            <input type="password" id="confirmPassword" name="confirmPassword"><br><br>
+                            <input type="password" id="confirmPassword" name="confirmPassword" required/><br><br>
                             <input type="submit" id="submit" name="submit" value="Register">
                             <p id="switch">Already have an account? <a href="/login">Login here</a></p>
                         </form>
@@ -413,6 +414,92 @@ export function render(page) {
             `;
             break;
     }
-    const headers = { "content-type": "text/html" }
+    
     return new Response(html, { headers })
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const contents = new Map();
+contents.set("login", `
+    <h1 id="title">Login</h1><br>
+    <form id="login" class="d-flex flex-column", method="post">
+        <label id="incorrect" class="text-danger" style="display: none; text-align: center;">Incorrect email or password</label>
+        <label for="email">Email Address</label><br>
+        <input type="text" id="email" name="email" class="rounded"><br><br><br>
+        <label for="password">Password</label><br>
+        <input type="password" id="password" name="password" class="rounded"><br><br>
+        <input type="submit" id="submit" value="Login"><br><br>
+        <p id="switch">No account? <a href="/register">Register here</a></p>
+    </form>`)
+contents.set("register", `
+    <h1 id="title">Register</h1> 
+    <form id="register" class="d-flex flex-column", method="post">
+        <label for="firstname">First Name</label><br>
+        <input type="text" id="firstname" name="firstname" required/><br><br>
+        <label for="lastname">Last Name</label><br>
+        <input type="text" id="lastname" name="lastname" required/><br><br>
+        <label for="username">Username</label><br>
+        <input type="text" id="username" name="username" required/><br><br>
+        <label for="email">Email Address</label><br>
+        <input type="text" id="email" name="email" required/><br><br>
+        <label for="password">Password</label><br>
+        <input type="password" id="password" name="password" required/><br><br>
+        <label for="confirmPassword">Confirm Password</label><br>
+        <input type="password" id="confirmPassword" name="confirmPassword" required/><br><br>
+        <input type="submit" id="submit" name="submit" value="Register">
+        <p id="switch">Already have an account? <a href="/login">Login here</a></p>
+    </form>`)
+
+contents.set("header", `
+    <nav class="navbar navbar-expand-sm navbar-light custom-navbar">
+        <div class="container-fluid">
+
+            <!-- Hamburger menu -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Collapsible nav links -->
+            <div class="collapse navbar-collapse ms-auto" id="mainNavbar">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link px-3" href="/html/index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="/html/leaderboard.html">Leaderboard</a></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="/html/progression.html">Progression</a></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="/html/calendar.html">Calendar</a></li>
+                </ul>
+            </div>
+
+            <!-- Profile picture -->
+            <div id="profile-dropdown" class="dropdown ms-auto">
+                <a href="#" class="d-block link-dark text-decoration-none" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="/assets/profile-placeholder.jpg" alt="User" class="rounded-circle profile-img">
+                </a>
+
+                <!-- Profile dropdown -->
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+                    <li><a class="dropdown-item" href="/html/profile.html">My Profile</a></li>
+                    <li><a class="dropdown-item" href="/html/progression.html">My Progress</a></li>
+                    <li><a class="dropdown-item" href="/html/preferences.html">Preferences</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="/logout">Sign Out</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>`)

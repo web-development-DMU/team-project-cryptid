@@ -26,3 +26,11 @@ export async function getUserByEmail(email) {
         SELECT * FROM accounts WHERE email = :email
         `).get({email});
 }
+
+export async function getPasswordByEmail(email) {
+    return "1234";
+}
+
+export async function userExists(email) {
+    return true;
+}

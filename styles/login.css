@@ -75,3 +75,13 @@ form {
         height: fit-content !important;
     }
 }
+
+/* aside#flash {
+    background: red;
+    color: white;
+    position: fixed;
+    top: 5rem;
+    right: 0;
+    padding-inline: 2rem;
+    font-size: 1.2m;
+} */

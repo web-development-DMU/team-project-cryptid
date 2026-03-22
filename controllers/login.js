@@ -1,0 +1,31 @@
+import { setCookie } from "https://deno.land/std@0.224.0/http/cookie.ts";
+import { getUserByUsername, getUserByEmail, getPasswordByEmail, userExists } from "../models/accounts.js";
+import { setFlash } from "../tools/flash.js"
+
+export async function loginController(request) {
+  
+  const formData = await request.formData();
+  const email = formData.get("email");
+  const password = formData.get("password");
+
+  const targetPassword = await getPasswordByEmail(email); 
+
+  const headers = new Headers();
+
+  if (await userExists(email) && password === targetPassword) {
+    
+    setCookie(headers, {
+      name: "session",
+      value: email,
+      path: "/",
+      // maxAge: 60 * 2 // 2 minutes. Lengthen when login is polished
+    });
+    headers.set('location', '/home');
+    return new Response(null, { headers, status: 303 });
+  }
+
+  setFlash(headers, "Incorrect password.")
+
+  headers.set('location', '/login');
+  return new Response(null, { headers, status: 303 });
+}
