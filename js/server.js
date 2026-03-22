@@ -55,11 +55,11 @@ export default async function server(request) {
   }
 
   // Serving page routes
-  if (path !== "/login" && path !== "/register" && path !== "/logout" && method === "GET") render("header");
+  if (path !== "/login" && path !== "/register" && path !== "/logout" && method === "GET") render("header", request);
   if (path === "/login" && method === "GET") return render("login", request);
   if (path === "/register" && method === "GET") return render("register", request);
 
-  // if (session) {
+   if (session) {
     if (path === "/home" && method === "GET") return render("home", request);
     if (path === "/profile" && method === "GET") return render("profile", request);
     if (path === "/calendar" && method === "GET") return render("calendar", request);
@@ -67,13 +67,12 @@ export default async function server(request) {
     if (path === "/preferences" && method === "GET") return render("preferences", request);
     if (path === "/progression" && method === "GET") return render("progression", request);
     if (path === "/logout" && method === "GET") return render("logout", request);
-  // } else if (!path.startsWith("/styles") && !path.startsWith("/assets") && !path.startsWith("/js")) {
-  //   console.log("11")
-  //   return new Response(null, {
-  //     status: 302,
-  //     headers: {Location: "/login"},
-  //   });
-  // }
+  } else if (!path.startsWith("/styles") && !path.startsWith("/assets") && !path.startsWith("/js")) {
+    return new Response(null, {
+      status: 302,
+      headers: {Location: "/login"},
+    });
+  }
 
   // Serving static files
   if (method == "GET") 
