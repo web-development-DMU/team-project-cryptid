@@ -1,6 +1,5 @@
-document.title = "Calendar";
-
-let currentDate = new Date();
+let currentDate = new Date(),
+    selectedDayDiv = null;
 
 function renderCalendar() {
     // Get calendar and date elements
@@ -9,6 +8,11 @@ function renderCalendar() {
 
     // Clear calendar
     calendar.innerHTML = "";
+
+    // Clear input fields
+    document.getElementById("taskName").value = "";
+    document.getElementById("taskStartDate").value = "";
+    document.getElementById("taskEndDate").value = "";
 
     // Get current month and year
     const year = currentDate.getFullYear();
@@ -41,6 +45,21 @@ function renderCalendar() {
         const div = document.createElement("div");
         div.textContent = day;
 
+        // Add click listener to allow tasks for that day to be displayed
+        div.addEventListener("click", () => {
+            const selectedDate = `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+            loadTasks(selectedDate);
+
+            // Remove highlight from previously selected day
+            if (selectedDayDiv) {
+                selectedDayDiv.classList.remove("selected");
+            }
+
+            // Highlight the clicked day
+            div.classList.add("selected");
+            selectedDayDiv = div;
+        });
+
         const today = new Date();
         if (
             day === today.getDate() &&
@@ -52,6 +71,9 @@ function renderCalendar() {
 
         calendar.appendChild(div);
     }
+
+    // Load tasks for current date
+    loadTasks(currentDate.toISOString().split("T")[0]);
 }
 
 function changeMonth(direction) {
@@ -59,4 +81,90 @@ function changeMonth(direction) {
     renderCalendar();
 }
 
+function getTaskTimeLeft(startDate, endDate) {
+    const now = new Date(startDate); // current time
+    const end = new Date(endDate);
+
+    const diffMs = end - now; // difference in milliseconds
+    if (diffMs <= 86400000 && diffMs >= 0) return "Due today"; // exactly one day left
+    else if (diffMs < 0) return "Past due"; // already finished
+
+    // Convert milliseconds to days, hours, minutes
+    const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diffMs / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((diffMs / (1000 * 60)) % 60);
+
+    let result = "";
+    if (days > 0) result += `${days}d `;
+
+    return result;
+}
+
+// Function to get tasks with deadline of the day clicked
+async function loadTasks(date) {
+    const response = await fetch(`/tasks/by-date?date=${date}`);
+    const tasks = await response.json();
+
+    const table = document.querySelector("#daily-tasks table");
+    table.innerHTML = `
+        <tr>
+            <th>Task Name</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Time Left</th>
+        </tr>
+    `;
+
+    for (let task of tasks) {
+        const row = document.createElement("tr");
+
+        row.innerHTML = `
+            <td>${task.title}</td>
+            <td>${task.start_date}</td>
+            <td>${task.end_date}</td>
+            <td>${getTaskTimeLeft(task.start_date, task.end_date)}</td>
+        `;
+
+        table.appendChild(row);
+    }
+    if (tasks.length === 0) {
+        table.innerHTML = "<tr><td colspan='3'>No tasks for this date.</td></tr>";
+    }
+}
+
 renderCalendar();
+
+// Get the form element
+const taskForm = document.getElementById("taskForm");
+const taskMessage = document.getElementById("errorMessage");
+
+taskForm.addEventListener("submit", async (e) => {
+    e.preventDefault(); // Prevent full page reload
+
+    const formData = new FormData(taskForm);
+    const response = await fetch("/tasks/add", {
+        method: "POST",
+        body: formData
+    });
+
+    if (response.ok) {
+        // Task added successfully
+        taskMessage.textContent = "Task added successfully!";
+        taskMessage.classList.remove("text-danger");
+        taskMessage.classList.add("text-success");
+
+        // Clear the form
+        taskForm.reset();
+    } else {
+        // Server returned an error
+        if (response.status === 410) {
+            taskMessage.textContent = "All fields are required";
+        } else if (response.status === 411) {
+            taskMessage.textContent = "Start date is after end date";
+        } else if (response.status === 412) {
+            taskMessage.textContent = "Invalid date format";
+        }
+        taskMessage.classList.remove("text-success");
+        taskMessage.classList.add("text-danger text-center");
+    }
+});

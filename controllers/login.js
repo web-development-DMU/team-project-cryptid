@@ -12,7 +12,6 @@ export async function loginController(request) {
 
   const headers = new Headers();
 
-  console.log(await userExists(email));
   if (!await userExists(email)) {
     setFlash(headers, "User not found.");
     headers.set('location', '/login');
@@ -23,7 +22,7 @@ export async function loginController(request) {
     
     setCookie(headers, {
       name: "session",
-      value: email,
+      value: user.username,
       path: "/",
       // maxAge: 60 * 2 // 2 minutes. Lengthen when login is polished
     });

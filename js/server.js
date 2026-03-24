@@ -7,10 +7,12 @@ import { render } from "../tools/render.js";
 import { loginController } from "../controllers/login.js";
 import { createUserController } from "../controllers/createUser.js";
 import { logoutController } from "../controllers/logout.js";
+import { addTaskController } from "../controllers/taskController.js";
+import { getTasksByDateController } from "../controllers/taskController.js";
 
 export default async function server(request) {
-  const url = new URL(request.url)
-  const path = url.pathname,
+  let url = new URL(request.url),
+        path = url.pathname,
         method = request.method,
         cookies = getCookies(request.headers),
         session = cookies.session;
@@ -18,11 +20,8 @@ export default async function server(request) {
   console.log(`${request.method} ${url.pathname}`);
   
   // Redirect from localhost/ based on login status
+  // if login cookie exists, go to home page, else go to login
   if ((path === "/" || path === "") && method === "GET") {
-    /*
-      if login cookie exists, go to home page
-      else go to login
-    */
     if (session) {
       return new Response(null, {
         status: 302,
@@ -54,6 +53,17 @@ export default async function server(request) {
     return logoutController(request);
   }
 
+  // Handling adding task
+  if (path == "/tasks/add" && method === "POST") {
+    return await addTaskController(request);
+  }
+
+  // Getting tasks by date
+  if (path === "/tasks/by-date" && method === "GET") {
+    return getTasksByDateController(request);
+  }
+
+
   // Serving page routes
   if (path !== "/login" && path !== "/register" && path !== "/logout" && method === "GET") render("header", request);
   if (path === "/login" && method === "GET") return render("login", request);
@@ -83,31 +93,6 @@ export default async function server(request) {
       return new Response(JSON.stringify({success: false}), {status: 404})
     }
   
-  return render("home", request);
 }
-
-// export default async function server(request) {
-
-//   const url = new URL(request.url);
-//   console.log(`${request.method} ${url.pathname}`);
-
-//   if (url.pathname == "/") {
-//     return new Response(null, {
-//         status: 302,
-//         headers: {Location: "/login"},
-//       });
-//   }
-
-//   if (url.pathname === "/home" && request.method === "GET") return render("home");
-//   if (url.pathname === "/login" && request.method === "GET") return render("login");
-//   if (url.pathname === "/login" && request.method === "POST") {
-//     console.log("s")
-
-//     const headers = new Headers();
-//     headers.set('location', '/home');
-//     return new Response(null, { headers, status: 303 });
-//   }
-
-// }
 
 Deno.serve(server);

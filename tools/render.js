@@ -8,60 +8,58 @@ export function render(page, request) {
     const flash = getFlash(request.headers, headers)
 
     let html;
+    const headerHTML = `
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+            <link rel="stylesheet" href="/styles/header.css">
+            <link rel="stylesheet" href="/styles/${page == "home" ? "index" : page}.css">
+            ${page == "calendar" ? '<link rel="stylesheet" href="/styles/addTask.css">' : ''}
+            <script src="/js/${page == "home" ? "index" : page}.js" ${page == 'profile' || page == 'calendar' ? 'defer' : ''}></script>
+            <title>${page[0].toUpperCase() + page.slice(1)}</title>
+        </head>
+        <body>
+        <nav class="navbar navbar-expand-sm navbar-light custom-navbar">
+            <div class="container-fluid">
+
+                <!-- Hamburger menu -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Collapsible nav links -->
+                <div class="collapse navbar-collapse ms-auto" id="mainNavbar">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item"><a class="nav-link px-3" href="/home">Home</a></li>
+                        <li class="nav-item"><a class="nav-link px-3" href="/leaderboard">Leaderboard</a></li>
+                        <li class="nav-item"><a class="nav-link px-3" href="/progression">Progression</a></li>
+                        <li class="nav-item"><a class="nav-link px-3" href="/calendar">Calendar</a></li>
+                    </ul>
+                </div>
+
+                <!-- Profile picture -->
+                <div id="profile-dropdown" class="dropdown ms-auto">
+                    <a href="#" class="d-block link-dark text-decoration-none" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="/assets/profile-placeholder.jpg" alt="User" class="rounded-circle profile-img">
+                    </a>
+
+                    <!-- Profile dropdown -->
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+                        <li><a class="dropdown-item" href="/profile">My Profile</a></li>
+                        <li><a class="dropdown-item" href="/progression">My Progress</a></li>
+                        <li><a class="dropdown-item" href="/preferences">Preferences</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="/logout">Sign Out</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        </header>`;
     switch (page) {
-        case "header":
-            html = `
-                <!DOCTYPE html>
-                <html lang="en">
-                <head>
-                    <meta charset="UTF-8">
-                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-                    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-                    <link rel="stylesheet" href="/styles/header.css"></style>
-                    <title>Header</title>
-                </head>
-                <body>
-                <nav class="navbar navbar-expand-sm navbar-light custom-navbar">
-                    <div class="container-fluid">
-
-                        <!-- Hamburger menu -->
-                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
-
-                        <!-- Collapsible nav links -->
-                        <div class="collapse navbar-collapse ms-auto" id="mainNavbar">
-                            <ul class="navbar-nav me-auto">
-                                <li class="nav-item"><a class="nav-link px-3" href="/html/index.html">Home</a></li>
-                                <li class="nav-item"><a class="nav-link px-3" href="/html/leaderboard.html">Leaderboard</a></li>
-                                <li class="nav-item"><a class="nav-link px-3" href="/html/progression.html">Progression</a></li>
-                                <li class="nav-item"><a class="nav-link px-3" href="/html/calendar.html">Calendar</a></li>
-                            </ul>
-                        </div>
-
-                        <!-- Profile picture -->
-                        <div id="profile-dropdown" class="dropdown ms-auto">
-                            <a href="#" class="d-block link-dark text-decoration-none" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="/assets/profile-placeholder.jpg" alt="User" class="rounded-circle profile-img">
-                            </a>
-
-                            <!-- Profile dropdown -->
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
-                                <li><a class="dropdown-item" href="/html/profile.html">My Profile</a></li>
-                                <li><a class="dropdown-item" href="/html/progression.html">My Progress</a></li>
-                                <li><a class="dropdown-item" href="/html/preferences.html">Preferences</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><form action="/logout" method="POST" class="dropdown-item">
-                                    <button type="submit">Sign Out</button>
-                                </form></li>
-                            </ul>
-                        </div>
-                    </div>
-                </nav>
-                </header>
-            `;
-            break;
         case "login":
             html = `
                 <!DOCTYPE html>
@@ -77,7 +75,7 @@ export function render(page, request) {
                 <body>
                     <main>
                         <h1 id="title">Login</h1><br>
-                        <form id="login" class="d-flex flex-column", method="post">
+                        <form id="login" class="d-flex flex-column", method="POST">
                             <label for="email">Email Address</label><br>
                             <input type="text" id="email" name="email" class="rounded"><br>
                             <label for="password">Password</label><br>
@@ -106,7 +104,7 @@ export function render(page, request) {
                 <body id="register-main">
                     <main>
                         <h1 id="title">Register</h1> 
-                        <form id="register" class="d-flex flex-column", method="post">
+                        <form id="register" class="d-flex flex-column", method="POST">
                             <label for="firstname">First Name</label>
                             <input type="text" id="firstname" name="firstname" required/><br>
                             <label for="lastname">Last Name</label>
@@ -129,12 +127,7 @@ export function render(page, request) {
             `;
             break;
         case "home":
-            html = `
-                <title>Home</title>
-                <!-- These two lines are needed on each page for the navbar to function properly. Reason unknown but the Bootstrap JS doesn't carry over files -->
-                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-                <script src="/js/header.js"></script>
-                <link rel="stylesheet" href="/styles/index.css">
+            html = headerHTML + `
                 <main class="d-flex">
                     <div id="side-l" class="divider">
                         <div id="user-details" class="container-fluid d-flex">
@@ -149,42 +142,42 @@ export function render(page, request) {
                             <!-- placeholders for upcoming tasks -->
                             <!-- Task IDs will be given based on the name of the task and the data-bs-target will be updated to the same name -->
                             <!-- clicking the task within the table will either redirect to a task details page, or pop-up a container which gets filled with the details of the clicked task. -->
-                            <div class="upcoming-task d-flex" onclick="location.href='header.html'">
+                            <div class="upcoming-task d-flex" onclick="location.href='#'">
                                 <p class="upcoming-details">Name1</p>
                                 <p class="upcoming-details middle">Time1</p>
                                 <p class="upcoming-details">XP1</p>
                             </div>
-                            <div class="upcoming-task d-flex" onclick="location.href='header.html'">
+                            <div class="upcoming-task d-flex" onclick="location.href='#'">
                                 <p class="upcoming-details">Name1</p>
                                 <p class="upcoming-details middle">Time1</p>
                                 <p class="upcoming-details">XP1</p>
                             </div>
-                            <div class="upcoming-task d-flex" onclick="location.href='header.html'">
+                            <div class="upcoming-task d-flex" onclick="location.href='#'">
                                 <p class="upcoming-details">Name1</p>
                                 <p class="upcoming-details middle">Time1</p>
                                 <p class="upcoming-details">XP1</p>
                             </div>
-                            <div class="upcoming-task d-flex" onclick="location.href='header.html'">
+                            <div class="upcoming-task d-flex" onclick="location.href='#'">
                                 <p class="upcoming-details">Name1</p>
                                 <p class="upcoming-details middle">Time1</p>
                                 <p class="upcoming-details">XP1</p>
                             </div>
-                            <div class="upcoming-task d-flex" onclick="location.href='header.html'">
+                            <div class="upcoming-task d-flex" onclick="location.href='#'">
                                 <p class="upcoming-details">Name1</p>
                                 <p class="upcoming-details middle">Time1</p>
                                 <p class="upcoming-details">XP1</p>
                             </div>
-                            <div class="upcoming-task d-flex" onclick="location.href='header.html'">
+                            <div class="upcoming-task d-flex" onclick="location.href='#'">
                                 <p class="upcoming-details">Name1</p>
                                 <p class="upcoming-details middle">Time1</p>
                                 <p class="upcoming-details">XP1</p>
                             </div>
-                            <div class="upcoming-task d-flex" onclick="location.href='header.html'">
+                            <div class="upcoming-task d-flex" onclick="location.href='#'">
                                 <p class="upcoming-details">Name1</p>
                                 <p class="upcoming-details middle">Time1</p>
                                 <p class="upcoming-details">XP1</p>
                             </div>
-                            <div class="upcoming-task d-flex" onclick="location.href='header.html'">
+                            <div class="upcoming-task d-flex" onclick="location.href='#'">
                                 <p class="upcoming-details">Name1</p>
                                 <p class="upcoming-details middle">Time1</p>
                                 <p class="upcoming-details">XP1</p>
@@ -195,7 +188,7 @@ export function render(page, request) {
                                 <p class="upcoming-details">XP1</p>
                             </div>
                             <div class="upcoming-task-btns">
-                                <input type="button" id="view-all-tasks-btn" class="rounded border border-1 border-dark" onclick="location.href='calendar.html'" value="View All Tasks">
+                                <input type="button" id="view-all-tasks-btn" class="rounded border border-1 border-dark" onclick="location.href='/calendar'" value="View All Tasks">
                                 <input type="button" id="add-task-btn" class="add-task-btn rounded-circle" value="Add Task" onclick="/*display new task section or redirect to new task page*/">
                             </div>
                         </div>
@@ -235,13 +228,7 @@ export function render(page, request) {
             `;
             break;
         case "profile":
-            html = `
-                <title>My Profile</title>
-                <!-- These two lines are needed on each page for the navbar to function properly. Reason unknown but the Bootstrap JS doesn't carry over files -->
-                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-                <script src="/js/header.js"></script>
-                <script src="/js/profile.js" defer></script>
-                <link rel="stylesheet" href="/styles/profile.css">
+            html = headerHTML + `
                 <main class="d-flex">
                     <div id="side-l" class="d-flex">
                         <!-- This may not be used at all -->
@@ -294,11 +281,7 @@ export function render(page, request) {
             `;
             break;
         case "calendar":
-            html = `
-                <title>Calendar</title>
-                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-                <script src="/js/header.js"></script>
-                <link rel="stylesheet" href="/styles/calendar.css">
+            html = headerHTML + `
                 <!--
                     What this page needs (mostly in scripting):
                         on load, day tasks pane shows tasks for current day
@@ -320,63 +303,69 @@ export function render(page, request) {
                             <p id="daily-tasks-date">
                                 March 3rd 2026
                             </p>
-                            <table>
-                                <tr>
-                                    <td>Task 1</td>
-                                    <td class="cell-shrink">Time Left</td>
-                                    <td class="cell-shrink">% Complete</td>
-                                    <td class="cell-shrink">50XP</td>
-                                </tr>
-                                <tr>
-                                    <td>Task 2</td>
-                                    <td class="cell-shrink">Time Left</td>
-                                    <td class="cell-shrink">% Complete</td>
-                                    <td class="cell-shrink">10XP</td>
-                                </tr>
-                                <tr>
-                                    <td>Task 3</td>
-                                    <td class="cell-shrink">Time Left</td>
-                                    <td class="cell-shrink">% Complete</td>
-                                    <td class="cell-shrink">35XP</td>
-                                </tr>
-                                <tr>
-                                    <td>Task 2</td>
-                                    <td class="cell-shrink">Time Left</td>
-                                    <td class="cell-shrink">% Complete</td>
-                                    <td class="cell-shrink">10XP</td>
-                                </tr>
-                                <tr>
-                                    <td>Task 2</td>
-                                    <td class="cell-shrink">Time Left</td>
-                                    <td class="cell-shrink">% Complete</td>
-                                    <td class="cell-shrink">10XP</td>
-                                </tr>
-                                <tr>
-                                    <td>Task 2</td>
-                                    <td class="cell-shrink">Time Left</td>
-                                    <td class="cell-shrink">% Complete</td>
-                                    <td class="cell-shrink">10XP</td>
-                                </tr>
-                            </table>
+                            <section id="task-table-container">
+                                <table>
+                                    <tr>
+                                        <td>Task 1</td>
+                                        <td class="cell-shrink">Time Left</td>
+                                        <td class="cell-shrink">50XP</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Task 2</td>
+                                        <td class="cell-shrink">Time Left</td>
+                                        <td class="cell-shrink">10XP</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Task 3</td>
+                                        <td class="cell-shrink">Time Left</td>
+                                        <td class="cell-shrink">35XP</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Task 2</td>
+                                        <td class="cell-shrink">Time Left</td>
+                                        <td class="cell-shrink">10XP</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Task 2</td>
+                                        <td class="cell-shrink">Time Left</td>
+                                        <td class="cell-shrink">10XP</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Task 2</td>
+                                        <td class="cell-shrink">Time Left</td>
+                                        <td class="cell-shrink">10XP</td>
+                                    </tr>
+                                </table>
+                            </section>
                                 <!-- If tasks can span multiple days, add task will autofill the start date for the day being viewed -->
-                                <input type="button" id="add-task-btn" class="add-task-btn rounded" value="Add Task" onclick="/*display new task section or redirect to new task page*/">
+                                <input type="button" id="add-task-btn" class="add-task-btn rounded" value="Add Task" onclick="document.getElementById('newTask').style.display = document.getElementById('newTask').style.display === 'none' ? 'flex' : 'none'">
                         </div>
                     </div>
                     <!-- this pane will display the task details that the user hovers over, allowing much easier design, scaling and positioning -->
                     <!-- The pane will be displayed just above the user's cursor (but NOT follow it), making positioning the pane much easier -->
                     <!-- There will be a simple script to move the pane and fill the details with the hovered task. The pane will not be clickable in any way -->
-                    <div id="task-view-pane" class="rounded">
-                        <p id="task-name">Name</p>
-                        <p id="task-tile">Time left</p>
-                        <p id="task-percentage">% Complete</p>
-                        <p id="task-objective">Objective 1</p>
-                        <p id="task-objective">Objective 2</p>
-                        <p id="task-objective">Objective 3</p>
-                        <p id="task-xp">50xp</p>
-                    </div>
                     <!-- Either import task detail file or create in each page it is required -->
                 </main>
-                <script src="/js/calendar.js"></script>
+                <section id="newTask">
+                    <h2>Add New Task</h2>
+                    <form id="taskForm" method="POST" action="/tasks/add">
+                        <div class="mb-3">
+                            <label for="taskName" class="form-label">Task Name</label>
+                            <input type="text" class="form-control" id="taskName" name="taskName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="taskStartDate" class="form-label">Start Date</label>
+                            <input type="date" class="form-control" id="taskStartDate" name="taskStartDate" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="taskEndDate" class="form-label">End Date</label>
+                            <input type="date" class="form-control" id="taskEndDate" name="taskEndDate" required>
+                        </div>
+                        <div id="errorMessage" class="text-danger mb-3"></div>
+                        <input type="submit" id="submit" class="btn btn-primary" value="Save" name="submit">
+                        <input type="button" id="cancel" class="btn btn-secondary" value="Cancel" name="cancel" onclick="document.getElementById('newTask').style.display = 'none'">
+                    </form>
+                </section>
             `;
             break;
         case "leaderboard":
@@ -399,88 +388,3 @@ export function render(page, request) {
     
     return new Response(html, { headers })
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-const contents = new Map();
-contents.set("login", `
-    <h1 id="title">Login</h1><br>
-    <form id="login" class="d-flex flex-column", method="post">
-        <label for="email">Email Address</label><br>
-        <input type="text" id="email" name="email" class="rounded"><br><br><br>
-        <label for="password">Password</label><br>
-        <input type="password" id="password" name="password" class="rounded"><br><br>
-        <input type="submit" id="submit" value="Login"><br><br>
-        <p id="switch">No account? <a href="/register">Register here</a></p>
-    </form>`)
-contents.set("register", `
-    <h1 id="title">Register</h1> 
-    <form id="register" class="d-flex flex-column", method="post">
-        <label for="firstname">First Name</label><br>
-        <input type="text" id="firstname" name="firstname" required/><br><br>
-        <label for="lastname">Last Name</label><br>
-        <input type="text" id="lastname" name="lastname" required/><br><br>
-        <label for="username">Username</label><br>
-        <input type="text" id="username" name="username" required/><br><br>
-        <label for="email">Email Address</label><br>
-        <input type="text" id="email" name="email" required/><br><br>
-        <label for="password">Password</label><br>
-        <input type="password" id="password" name="password" required/><br><br>
-        <label for="confirmPassword">Confirm Password</label><br>
-        <input type="password" id="confirmPassword" name="confirmPassword" required/><br><br>
-        <input type="submit" id="submit" name="submit" value="Register">
-        <p id="switch">Already have an account? <a href="/login">Login here</a></p>
-    </form>`)
-
-contents.set("header", `
-    <nav class="navbar navbar-expand-sm navbar-light custom-navbar">
-        <div class="container-fluid">
-
-            <!-- Hamburger menu -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <!-- Collapsible nav links -->
-            <div class="collapse navbar-collapse ms-auto" id="mainNavbar">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item"><a class="nav-link px-3" href="/html/index.html">Home</a></li>
-                    <li class="nav-item"><a class="nav-link px-3" href="/html/leaderboard.html">Leaderboard</a></li>
-                    <li class="nav-item"><a class="nav-link px-3" href="/html/progression.html">Progression</a></li>
-                    <li class="nav-item"><a class="nav-link px-3" href="/html/calendar.html">Calendar</a></li>
-                </ul>
-            </div>
-
-            <!-- Profile picture -->
-            <div id="profile-dropdown" class="dropdown ms-auto">
-                <a href="#" class="d-block link-dark text-decoration-none" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="/assets/profile-placeholder.jpg" alt="User" class="rounded-circle profile-img">
-                </a>
-
-                <!-- Profile dropdown -->
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
-                    <li><a class="dropdown-item" href="/html/profile.html">My Profile</a></li>
-                    <li><a class="dropdown-item" href="/html/progression.html">My Progress</a></li>
-                    <li><a class="dropdown-item" href="/html/preferences.html">Preferences</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="/logout">Sign Out</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>`)

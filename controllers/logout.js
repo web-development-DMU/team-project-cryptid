@@ -10,7 +10,7 @@ export async function logoutController(request) {
   // Create a response that redirects the user to /login
   const response = new Response(null, {
     status: 302,
-    headers: { Location: "/login" },
+    headers: { Location: "/" },
   });
 
   // Delete cookie

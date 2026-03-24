@@ -1,5 +1,6 @@
 import { db } from '../tools/db.js'
 
+// Create accounts table
 db.exec(`
 CREATE TABLE IF NOT EXISTS accounts (
     firstname STRING NOT NULL,
@@ -7,6 +8,18 @@ CREATE TABLE IF NOT EXISTS accounts (
     username STRING PRIMARY KEY NOT NULL,
     email STRING NOT NULL,
     password STRING NOT NULL
+)`);
+
+// Create tasks table
+db.exec(`
+CREATE TABLE IF NOT EXISTS tasks (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title STRING NOT NULL,
+    start_date STRING NOT NULL,
+    end_date STRING NOT NULL,
+    completed BOOLEAN DEFAULT FALSE,
+    user_id STRING NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES accounts(username)
 )`);
 
 export async function createUser({firstname, lastname, username, email, password}) {

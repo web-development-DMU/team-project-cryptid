@@ -1,6 +1,6 @@
 import getId from "/js/getid.js";
 
-document.getElementById("login").addEventListener("submit", async (e) => {
+getId("login").addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const   email = getId("email").value,
