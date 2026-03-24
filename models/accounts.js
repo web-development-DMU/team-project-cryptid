@@ -17,20 +17,22 @@ export async function createUser({firstname, lastname, username, email, password
 
 export async function getUserByUsername(username) {
     return db.prepare(`
-        SELECT * FROM accounts WHERE username = :username
+        SELECT * FROM accounts WHERE username == :username
         `).get({username});
 }
 
 export async function getUserByEmail(email) {
     return db.prepare(`
-        SELECT * FROM accounts WHERE email = :email
+        SELECT * FROM accounts WHERE email == :email
         `).get({email});
 }
 
 export async function getPasswordByEmail(email) {
-    return "1234";
+    return db.prepare(`
+        SELECT password FROM accounts WHERE email == :email
+        `).get({email});
 }
 
 export async function userExists(email) {
-    return true;
+    return await getUserByEmail(email) !== undefined;
 }

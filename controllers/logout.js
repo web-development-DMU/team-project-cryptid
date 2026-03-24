@@ -1,5 +1,5 @@
 // controllers/logout.js
-import { setCookie } from "https://deno.land/std@0.224.0/http/cookie.ts";
+import { deleteCookie } from "https://deno.land/std/http/cookie.ts";
 
 /**
  * Handles user logout
@@ -13,15 +13,8 @@ export async function logoutController(request) {
     headers: { Location: "/login" },
   });
 
-  // Overwrite the session cookie with empty value and expire it immediately
-  setCookie(response.headers, {
-    name: "session",
-    value: "",
-    path: "/",       // must match the cookie path used when creating the session
-    maxAge: 0,       // expires immediately
-    httpOnly: true,  // security best-practice
-    sameSite: "Strict",
-  });
+  // Delete cookie
+  deleteCookie(response.headers, "session", { path: "/" });
 
   return response;
 }

@@ -1,30 +1,6 @@
 import { getCookies } from "https://deno.land/std@0.224.0/http/cookie.ts";
 import { getFlash } from "../tools/flash.js"
 
-// export function render(page, request) {
-//     const html = `
-// <!DOCTYPE html>
-// <html lang="en">
-// <head>
-//     <meta charset="UTF-8">
-//     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-//     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-//     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-//     <link rel="stylesheet" href="styles/${page}.css">
-//     <title>${page.charAt(0).toUpperCase() + page.slice(1)}</title>
-// </head>
-// <body>
-//     <main>
-//         ${contents.get(page)}
-//     </main>
-// </body>
-// </html>
-//     `
-//     const headers = { "content-type": "text/html" }
-//     return new Response(html, { headers })
-// }
-
-
 
 export function render(page, request) {
     const headers = new Headers();
@@ -33,7 +9,7 @@ export function render(page, request) {
 
     let html;
     switch (page) {
-        case "header": 
+        case "header":
             html = `
                 <!DOCTYPE html>
                 <html lang="en">
@@ -76,7 +52,9 @@ export function render(page, request) {
                                 <li><a class="dropdown-item" href="/html/progression.html">My Progress</a></li>
                                 <li><a class="dropdown-item" href="/html/preferences.html">Preferences</a></li>
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="/logout">Sign Out</a></li>
+                                <li><form action="/logout" method="POST" class="dropdown-item">
+                                    <button type="submit">Sign Out</button>
+                                </form></li>
                             </ul>
                         </div>
                     </div>
@@ -100,13 +78,12 @@ export function render(page, request) {
                     <main>
                         <h1 id="title">Login</h1><br>
                         <form id="login" class="d-flex flex-column", method="post">
-                            <label id="incorrect" class="text-danger" style="display: none; text-align: center;">Incorrect email or password</label>
                             <label for="email">Email Address</label><br>
-                            <input type="text" id="email" name="email" class="rounded"><br><br><br>
+                            <input type="text" id="email" name="email" class="rounded"><br>
                             <label for="password">Password</label><br>
-                            <input type="password" id="password" name="password" class="rounded"><br><br>
+                            <input type="password" id="password" name="password" class="rounded"><br>
                             ${flash}
-                            <input type="submit" id="submit" value="Login"><br><br>
+                            <input type="submit" id="submit" value="Login"><br>
                             <p id="switch">No account? <a href="/register">Register here</a></p>
                         </form>
                     </main>
@@ -121,6 +98,7 @@ export function render(page, request) {
                 <head>
                     <meta charset="UTF-8">
                     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
                     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
                     <link rel="stylesheet" href="/styles/login.css">
                     <title>Register</title>
@@ -129,19 +107,20 @@ export function render(page, request) {
                     <main>
                         <h1 id="title">Register</h1> 
                         <form id="register" class="d-flex flex-column", method="post">
-                            <label for="firstname">First Name</label><br>
-                            <input type="text" id="firstname" name="firstname" required/><br><br>
-                            <label for="lastname">Last Name</label><br>
-                            <input type="text" id="lastname" name="lastname" required/><br><br>
-                            <label for="username">Username</label><br>
-                            <input type="text" id="username" name="username" required/><br><br>
-                            <label for="email">Email Address</label><br>
-                            <input type="text" id="email" name="email" required/><br><br>
-                            <label for="password">Password</label><br>
-                            <input type="password" id="password" name="password" required/><br><br>
-                            <label for="confirmPassword">Confirm Password</label><br>
-                            <input type="password" id="confirmPassword" name="confirmPassword" required/><br><br>
+                            <label for="firstname">First Name</label>
+                            <input type="text" id="firstname" name="firstname" required/><br>
+                            <label for="lastname">Last Name</label>
+                            <input type="text" id="lastname" name="lastname" required/><br>
+                            <label for="username">Username</label>
+                            <input type="text" id="username" name="username" required/><br>
+                            <label for="email">Email Address</label>
+                            <input type="text" id="email" name="email" required/><br>
+                            <label for="password">Password</label>
+                            <input type="password" id="password" name="password" required/><br>
+                            <label for="confirmPassword">Confirm Password</label>
+                            <input type="password" id="confirmPassword" name="confirmPassword" required/><br>
                             <input type="submit" id="submit" name="submit" value="Register">
+                            ${flash}
                             <p id="switch">Already have an account? <a href="/login">Login here</a></p>
                         </form>
                     </main>
@@ -151,6 +130,7 @@ export function render(page, request) {
             break;
         case "home":
             html = `
+                <title>Home</title>
                 <!-- These two lines are needed on each page for the navbar to function properly. Reason unknown but the Bootstrap JS doesn't carry over files -->
                 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
                 <script src="/js/header.js"></script>
@@ -256,6 +236,7 @@ export function render(page, request) {
             break;
         case "profile":
             html = `
+                <title>My Profile</title>
                 <!-- These two lines are needed on each page for the navbar to function properly. Reason unknown but the Bootstrap JS doesn't carry over files -->
                 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
                 <script src="/js/header.js"></script>
@@ -314,6 +295,7 @@ export function render(page, request) {
             break;
         case "calendar":
             html = `
+                <title>Calendar</title>
                 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
                 <script src="/js/header.js"></script>
                 <link rel="stylesheet" href="/styles/calendar.css">
@@ -440,7 +422,6 @@ const contents = new Map();
 contents.set("login", `
     <h1 id="title">Login</h1><br>
     <form id="login" class="d-flex flex-column", method="post">
-        <label id="incorrect" class="text-danger" style="display: none; text-align: center;">Incorrect email or password</label>
         <label for="email">Email Address</label><br>
         <input type="text" id="email" name="email" class="rounded"><br><br><br>
         <label for="password">Password</label><br>

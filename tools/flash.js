@@ -15,7 +15,7 @@ export function getFlash(requestHeaders, responseHeaders) {
         deleteCookie(responseHeaders, "flash", { path: "/"});
 
         return `
-        <aside id="flash">
+        <aside id="flash" class="text-danger">
             <p>${new TextDecoder().decode(decodeBase64Url(flash))}</p>
         </aside>
         `

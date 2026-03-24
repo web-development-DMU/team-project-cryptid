@@ -7,5 +7,5 @@ export async function registerController(request) {
 
     cookies = getCookies(request.headers),
     session = cookies.session;
-    
+    console.log("controller")
 }

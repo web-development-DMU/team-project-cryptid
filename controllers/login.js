@@ -8,11 +8,18 @@ export async function loginController(request) {
   const email = formData.get("email");
   const password = formData.get("password");
 
-  const targetPassword = await getPasswordByEmail(email); 
+  const user = await getUserByEmail(email);
 
   const headers = new Headers();
 
-  if (await userExists(email) && password === targetPassword) {
+  console.log(await userExists(email));
+  if (!await userExists(email)) {
+    setFlash(headers, "User not found.");
+    headers.set('location', '/login');
+    return new Response(null, { headers, status: 303 });
+  }
+
+  if (await userExists(email) && password === user.password) {
     
     setCookie(headers, {
       name: "session",

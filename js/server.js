@@ -50,7 +50,7 @@ export default async function server(request) {
   }
 
   // Handling user logout
-  if (path === "/logout" && method === "POST") {
+  if (path === "/logout" && (method === "POST" || method === "GET")) {
     return logoutController(request);
   }
 
@@ -59,7 +59,7 @@ export default async function server(request) {
   if (path === "/login" && method === "GET") return render("login", request);
   if (path === "/register" && method === "GET") return render("register", request);
 
-   if (session) {
+  if (session) {
     if (path === "/home" && method === "GET") return render("home", request);
     if (path === "/profile" && method === "GET") return render("profile", request);
     if (path === "/calendar" && method === "GET") return render("calendar", request);
@@ -83,7 +83,7 @@ export default async function server(request) {
       return new Response(JSON.stringify({success: false}), {status: 404})
     }
   
-  return render();
+  return render("home", request);
 }
 
 // export default async function server(request) {
