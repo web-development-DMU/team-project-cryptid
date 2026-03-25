@@ -7,7 +7,7 @@ import { render } from "../tools/render.js";
 import { loginController } from "../controllers/login.js";
 import { createUserController } from "../controllers/createUser.js";
 import { logoutController } from "../controllers/logout.js";
-import { addTaskController } from "../controllers/taskController.js";
+import { addTaskController, editTaskController } from "../controllers/taskController.js";
 import { getTasksByDateController } from "../controllers/taskController.js";
 
 export default async function server(request) {
@@ -18,6 +18,14 @@ export default async function server(request) {
         session = cookies.session;
 
   console.log(`${request.method} ${url.pathname}`);
+
+  // Redirect logged-in users away from login/register
+  if ((path === "/login" || path === "/register") && method === "GET" && session) {
+    return new Response(null, {
+      status: 302,
+      headers: { Location: "/home" },
+    });
+  }
   
   // Redirect from localhost/ based on login status
   // if login cookie exists, go to home page, else go to login
@@ -57,6 +65,12 @@ export default async function server(request) {
   if (path == "/tasks/add" && method === "POST") {
     return await addTaskController(request);
   }
+
+  // Handling editing task
+  if (path === "/tasks/edit" && method === "POST") {
+    return await editTaskController(request);
+  }
+
 
   // Getting tasks by date
   if (path === "/tasks/by-date" && method === "GET") {

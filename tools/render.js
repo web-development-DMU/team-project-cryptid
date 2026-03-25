@@ -282,13 +282,6 @@ export function render(page, request) {
             break;
         case "calendar":
             html = headerHTML + `
-                <!--
-                    What this page needs (mostly in scripting):
-                        on load, day tasks pane shows tasks for current day
-                        clicking a day displays pop-up with the day's tasks;
-                        clicking a task within the day shows task details;
-                        clicking back button on task details hides pane/directs back to day tasks
-                -->
                 <main class="d-flex w-100">
                     <div id="calendar-container">
                         <div class="calendar-header">
@@ -338,34 +331,36 @@ export function render(page, request) {
                                 </table>
                             </section>
                                 <!-- If tasks can span multiple days, add task will autofill the start date for the day being viewed -->
-                                <input type="button" id="add-task-btn" class="add-task-btn rounded" value="Add Task" onclick="document.getElementById('newTask').style.display = document.getElementById('newTask').style.display === 'none' ? 'flex' : 'none'">
+                                <input type="button" id="add-task-btn" class="add-task-btn rounded" value="Add Task" onclick="document.getElementById('taskForm').action = '/tasks/add'; document.getElementById('newTask').style.display = document.getElementById('newTask').style.display === 'none' ? 'flex' : 'none'; document.querySelector('#newTask h2').textContent = 'New Task'; document.getElementById('backgroundCancel').style.display = 'block'; document.getElementById('taskCompleted').style.display = 'none'; document.getElementById('taskCompletedLabel').style.display = 'none'; document.getElementById('taskForm').reset(); document.getElementById('taskCompleted').checked = false;">
                         </div>
                     </div>
-                    <!-- this pane will display the task details that the user hovers over, allowing much easier design, scaling and positioning -->
-                    <!-- The pane will be displayed just above the user's cursor (but NOT follow it), making positioning the pane much easier -->
-                    <!-- There will be a simple script to move the pane and fill the details with the hovered task. The pane will not be clickable in any way -->
-                    <!-- Either import task detail file or create in each page it is required -->
                 </main>
-                <section id="newTask">
+                <div id="backgroundCancel" onclick="document.getElementById('taskForm').reset(); document.getElementById('newTask').style.display = 'none'; document.getElementById('backgroundCancel').style.display = 'none'"></div>
+                <div id="newTask" style="display: none !important;">
                     <h2>Add New Task</h2>
                     <form id="taskForm" method="POST" action="/tasks/add">
-                        <div class="mb-3">
+                        <section class="d-flex flex-column align-items-center mb-3">
                             <label for="taskName" class="form-label">Task Name</label>
                             <input type="text" class="form-control" id="taskName" name="taskName" required>
-                        </div>
-                        <div class="mb-3">
+                        </section>
+                        <section class="d-flex flex-column align-items-center mb-3">
                             <label for="taskStartDate" class="form-label">Start Date</label>
-                            <input type="date" class="form-control" id="taskStartDate" name="taskStartDate" required>
-                        </div>
-                        <div class="mb-3">
+                            <input type="date" class="form-control date-input" id="taskStartDate" name="taskStartDate" required>
+                        </section>
+                        <section class="d-flex flex-column align-items-center mb-3">
                             <label for="taskEndDate" class="form-label">End Date</label>
-                            <input type="date" class="form-control" id="taskEndDate" name="taskEndDate" required>
-                        </div>
-                        <div id="errorMessage" class="text-danger mb-3"></div>
-                        <input type="submit" id="submit" class="btn btn-primary" value="Save" name="submit">
-                        <input type="button" id="cancel" class="btn btn-secondary" value="Cancel" name="cancel" onclick="document.getElementById('newTask').style.display = 'none'">
+                            <input type="date" class="form-control date-input" id="taskEndDate" name="taskEndDate" required>
+                        </section>
+                        <section class="form-check d-flex flex-row justify-content-center mb-3">
+                            <input type="checkbox" class="form-check-input " id="taskCompleted" name="taskCompleted">
+                            <label for="taskCompleted" class="form-check-label" id="taskCompletedLabel">Completed</label>
+                        </section>
+                        <div id="errorMessage" class=" text-center text-danger mb-3"></div>
+                        <input type="submit" class="btn btn-primary mb-3" value="Save" id="submit" name="submit">
+                        <input type="button" class="btn btn-secondary mb-3" value="Cancel" id="cancel" onclick="document.getElementById('taskForm').reset(); document.getElementById('newTask').style.display = 'none'; document.getElementById('backgroundCancel').style.display = 'none'">
+                        <input type="hidden" id="taskId" name="taskId">
                     </form>
-                </section>
+                </div>
             `;
             break;
         case "leaderboard":

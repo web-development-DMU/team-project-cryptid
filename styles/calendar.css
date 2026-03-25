@@ -92,6 +92,10 @@ body {
         height: 60px !important;
         padding: 5px;
     }
+    td {
+        user-select: none;
+        z-index: -1;
+    }
     #daily-tasks-date {
         font-size: 3rem;
     }

@@ -15,7 +15,39 @@ h2 {
     text-align: center;
 }
 
+input[type="text"] {
+    width: 80%;
+    text-align: center;
+}
+
 [value="Save"], [value="Cancel"] {
     width: 20%;
     margin-left: 20%;
+}
+
+.form-check {
+    width: 100% !important;
+    input {
+        margin-right: 10px;
+    }
+}
+
+.date-input {
+    width: 50% !important;
+    text-align: center !important;
+}
+
+.day-header {
+    z-index: -1;
+}
+
+#backgroundCancel {
+    position: fixed;
+    display: none;
+    width: 100%;
+    height: 100%;
+    left: 0px;
+    top: 0px;
+    background-color: black;
+    opacity: 0.1;
 }

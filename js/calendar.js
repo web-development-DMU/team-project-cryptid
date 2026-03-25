@@ -1,10 +1,18 @@
 let currentDate = new Date(),
     selectedDayDiv = null;
 
+// Get calendar and date elements
+const calendar = document.getElementById("calendar"),
+    monthYear = document.getElementById("month-year"),
+
+// Get new task elements
+    newTask = document.getElementById("newTask"),
+    taskName = document.getElementById("taskName"),
+    taskStart = document.getElementById("taskStartDate"),
+    taskEnd = document.getElementById("taskEndDate"),
+    taskCompleted = document.getElementById("taskCompleted");
+
 function renderCalendar() {
-    // Get calendar and date elements
-    const calendar = document.getElementById("calendar");
-    const monthYear = document.getElementById("month-year");
 
     // Clear calendar
     calendar.innerHTML = "";
@@ -82,7 +90,7 @@ function changeMonth(direction) {
 }
 
 function getTaskTimeLeft(startDate, endDate) {
-    const now = new Date(startDate); // current time
+    const now = new Date(Date.now()); // current time
     const end = new Date(endDate);
 
     const diffMs = end - now; // difference in milliseconds
@@ -118,12 +126,38 @@ async function loadTasks(date) {
     for (let task of tasks) {
         const row = document.createElement("tr");
 
+        // Add event listener to show task details in newTask popup
+        row.addEventListener("click", () => {
+            newTask.style.display = 'flex';
+            document.getElementById("backgroundCancel").style.display = 'block';
+            document.querySelector('#newTask h2').textContent = 'Edit Task';
+            document.getElementById("taskCompleted").style.display = 'block';
+            document.getElementById("taskCompletedLabel").style.display = 'block';
+
+            // Change form action to edit
+            document.getElementById("taskForm").action = "/tasks/edit";
+
+            // Add data to elements
+            taskName.value = task.title;
+            taskStart.value = task.start_date.toString();
+            taskEnd.value = task.end_date.toString();
+            taskCompleted.checked = task.completed === "on";
+            taskId.value = task.id;
+        });
+
+        const taskTimeLeft = getTaskTimeLeft(task.start_date, task.end_date);
+
         row.innerHTML = `
             <td>${task.title}</td>
             <td>${task.start_date}</td>
             <td>${task.end_date}</td>
-            <td>${getTaskTimeLeft(task.start_date, task.end_date)}</td>
+            <td>${task.completed ? "Complete" : taskTimeLeft}</td>
         `;
+
+        row.style.backgroundColor = task.completed === "on" ? "lightgreen" : taskTimeLeft === "Past due" && task.completed !== "on" ? "red" : "white";
+
+        // Setting task ID. This is needed to be able to properly manipulate the desired task, as having tasks with the same details causes all of those tasks to be manipulated rather than just one
+        row.taskId = task.id;
 
         table.appendChild(row);
     }
@@ -138,20 +172,30 @@ renderCalendar();
 const taskForm = document.getElementById("taskForm");
 const taskMessage = document.getElementById("errorMessage");
 
+// Form submission event listener. Used to create user messages
 taskForm.addEventListener("submit", async (e) => {
-    e.preventDefault(); // Prevent full page reload
+    e.preventDefault();
 
-    const formData = new FormData(taskForm);
-    const response = await fetch("/tasks/add", {
+    const formData = new FormData(taskForm),
+        inEditMode = document.querySelector('#newTask h2').textContent === 'Edit Task';
+    let response;
+    // If in "edit" mode, send "edit" post, else send "add" post
+    response = await fetch(`/tasks/${inEditMode ? 'edit' : 'add'}`, {
         method: "POST",
         body: formData
     });
 
     if (response.ok) {
         // Task added successfully
-        taskMessage.textContent = "Task added successfully!";
+        taskMessage.textContent = `Task ${inEditMode ? 'edited' : 'added'} successfully!`;
         taskMessage.classList.remove("text-danger");
         taskMessage.classList.add("text-success");
+
+        // Timeout to close pop-up. May change to instant remove  depending on UX
+        setTimeout(() => {
+            document.getElementById("newTask").style.display = "none";
+            document.getElementById("backgroundCancel").style.display = "none";
+        }, 1000);
 
         // Clear the form
         taskForm.reset();
@@ -167,4 +211,5 @@ taskForm.addEventListener("submit", async (e) => {
         taskMessage.classList.remove("text-success");
         taskMessage.classList.add("text-danger text-center");
     }
+    window.location.reload();
 });

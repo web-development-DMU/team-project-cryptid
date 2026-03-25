@@ -5,18 +5,22 @@
 <section id="newTask" class="d-flex flex-column"> <!--style="display: none !important;">-->
     <h2>Add New Task</h2>
     <form id="taskForm" method="post">
-        <div class="mb-3">
+        <section class="d-flex flex-column align-items-center mb-3">
             <label for="taskName" class="form-label">Task Name</label>
             <input type="text" class="form-control" id="taskName" name="taskName" required>
-        </div>
-        <div class="mb-3">
+        </section>
+        <section class="d-flex flex-column align-items-center mb-3">
             <label for="taskStartDate" class="form-label">Start Date</label>
-            <input type="date" class="form-control" id="taskStartDate" name="taskStartDate" required>
-        </div>
-        <div class="mb-3">
+            <input type="date" class="form-control date-input" id="taskStartDate" name="taskStartDate" required>
+        </section>
+        <section class="d-flex flex-column align-items-center mb-3">
             <label for="taskEndDate" class="form-label">End Date</label>
-            <input type="date" class="form-control" id="taskEndDate" name="taskEndDate" required>
-        </div>
+            <input type="date" class="form-control date-input" id="taskEndDate" name="taskEndDate" required>
+        </section>
+        <section class="form-check d-flex flex-row justify-content-center mb-3">
+            <input type="checkbox" class="form-check-input " id="taskCompleted" name="taskCompleted">
+            <label for="taskCompleted" class="form-check-label">Completed</label>
+        </section>
         <input type="submit" class="btn btn-primary" value="Save" id="submit" name="submit">
         <input type="button" class="btn btn-secondary" value="Cancel" id="cancel">
     </form>

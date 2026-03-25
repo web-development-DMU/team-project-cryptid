@@ -1,4 +1,4 @@
-import { addTask } from "../models/task.js";
+import { addTask, editTask } from "../models/task.js";
 import { getCookies } from "https://deno.land/std@0.224.0/http/cookie.ts";
 import { getTasksByDate } from "../models/task.js";
 import { setFlash, getFlash } from "../tools/flash.js"
@@ -40,9 +40,57 @@ export async function addTaskController(request) {
             headers: { Location: "/calendar" },
         });
     } catch (err) {
-        console.log("controller error:", err.message);
+        console.log("add controller error:", err.message);
         return new Response(JSON.stringify({ success: false, error: err.message }), {
             headers: { "Content-Type": "application/json" },
+            status: 500,
+        });
+    }
+}
+
+export async function editTaskController(request) {
+    const   formData = await request.formData(),
+            title = formData.get("taskName"),
+            startDate = formData.get("taskStartDate"),
+            endDate = formData.get("taskEndDate"),
+            completed = formData.get("taskCompleted"),
+            taskId = formData.get("taskId"),
+            start = new Date (startDate),
+            end = new Date (endDate),
+            headers = new Headers();
+
+    // Input validation
+    if (!title || !startDate || !endDate) {
+        setFlash(headers, "All fields are required");
+        headers.set("Location", "/calendar");
+        return new Response(null, {ok: false, statusText: "All fields required", status: 410});
+    }
+
+    if (start > end) {
+        setFlash(headers, "Start date is after end date");
+        headers.set("Location", "/calendar");
+        return new Response(null, {ok: false, statusText: "Start date is after end date", status: 411});
+    }
+
+    if (isNaN(start.getTime()) || isNaN(end.getTime())) {
+        setFlash(headers, "Invalid date format");
+        headers.set("Location", "/calendar");
+        return new Response(null, {ok: false, statusText: "Invalid date format", status: 412});
+    }
+
+    try {
+        await editTask({ title, startDate, endDate, completed, taskId });
+        return new Response(null, {
+            status: 303,
+            headers: { Location: "/calendar" },
+        });
+    } catch (err) {
+        console.log("edit controller error:", err.message);
+        return new Response(JSON.stringify({ success: false, error: err.message }), {
+            headers: {
+                "Content-Type": "application/json",
+                "Location": "/calendar"
+            },
             status: 500,
         });
     }
