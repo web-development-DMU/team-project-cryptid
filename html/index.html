@@ -12,60 +12,50 @@
             </div>
         </div>
         <!-- MAX OF 9 TASKS ALLOWED TO BE DISPLAYED -->
-        <div class="task-table rounded">
-            <!-- placeholders for upcoming tasks -->
-            <!-- Task IDs will be given based on the name of the task and the data-bs-target will be updated to the same name -->
-            <!-- clicking the task within the table will either redirect to a task details page, or pop-up a container which gets filled with the details of the clicked task. -->
-            <div class="upcoming-task d-flex" onclick="location.href='header.html'">
-                <p class="upcoming-details">Name1</p>
-                <p class="upcoming-details middle">Time1</p>
-                <p class="upcoming-details">XP1</p>
-            </div>
-            <div class="upcoming-task d-flex" onclick="location.href='header.html'">
-                <p class="upcoming-details">Name1</p>
-                <p class="upcoming-details middle">Time1</p>
-                <p class="upcoming-details">XP1</p>
-            </div>
-            <div class="upcoming-task d-flex" onclick="location.href='header.html'">
-                <p class="upcoming-details">Name1</p>
-                <p class="upcoming-details middle">Time1</p>
-                <p class="upcoming-details">XP1</p>
-            </div>
-            <div class="upcoming-task d-flex" onclick="location.href='header.html'">
-                <p class="upcoming-details">Name1</p>
-                <p class="upcoming-details middle">Time1</p>
-                <p class="upcoming-details">XP1</p>
-            </div>
-            <div class="upcoming-task d-flex" onclick="location.href='header.html'">
-                <p class="upcoming-details">Name1</p>
-                <p class="upcoming-details middle">Time1</p>
-                <p class="upcoming-details">XP1</p>
-            </div>
-            <div class="upcoming-task d-flex" onclick="location.href='header.html'">
-                <p class="upcoming-details">Name1</p>
-                <p class="upcoming-details middle">Time1</p>
-                <p class="upcoming-details">XP1</p>
-            </div>
-            <div class="upcoming-task d-flex" onclick="location.href='header.html'">
-                <p class="upcoming-details">Name1</p>
-                <p class="upcoming-details middle">Time1</p>
-                <p class="upcoming-details">XP1</p>
-            </div>
-            <div class="upcoming-task d-flex" onclick="location.href='header.html'">
-                <p class="upcoming-details">Name1</p>
-                <p class="upcoming-details middle">Time1</p>
-                <p class="upcoming-details">XP1</p>
-            </div>
-            <div class="upcoming-task last d-flex">
-                <p class="upcoming-details">Name1</p>
-                <p class="upcoming-details middle">Time1</p>
-                <p class="upcoming-details">XP1</p>
-            </div>
-            <div class="upcoming-task-btns">
-                <input type="button" id="view-all-tasks-btn" class="rounded border border-1 border-dark" onclick="location.href='calendar.html'" value="View All Tasks">
-                <input type="button" id="add-task-btn" class="add-task-btn rounded-circle" value="Add Task" onclick="/*display new task section or redirect to new task page*/">
-            </div>
-        </div>
+         <section class="task-table">
+            <table>
+                <tr>
+                    <td>Task1</td>
+                    <td>Time Left</td>
+                </tr>
+                <tr>
+                    <td>Task2</td>
+                    <td>Time Left</td>
+                </tr>
+                <tr>
+                    <td>Task3</td>
+                    <td>Time Left</td>
+                </tr>
+                <tr>
+                    <td>Task4</td>
+                    <td>Time Left</td>
+                </tr>
+                <tr>
+                    <td>Task5</td>
+                    <td>Time Left</td>
+                </tr>
+                <tr>
+                    <td>Task6</td>
+                    <td>Time Left</td>
+                </tr>
+                <tr>
+                    <td>Task7</td>
+                    <td>Time Left</td>
+                </tr>
+                <tr>
+                    <td>Task8</td>
+                    <td>Time Left</td>
+                </tr>
+                <tr>
+                    <td>Task9</td>
+                    <td>Time Left</td>
+                </tr>
+            </table>
+            <section class="button-container">
+                <td><input type="button" id="view-all-tasks-btn" class="rounded border border-1 border-dark" onclick="location.href='/calendar'" value="View All Tasks"></td>
+                <td><input type="button" id="add-task-btn" class="add-task-btn rounded-circle" value="Add Task" onclick="/*display new task section or redirect to new task page*/"></td>
+            </section>
+         </section>
     </div>
     <div id="side-r" class="divider">
         <p class="recently-collected-title">Recent Items</p>

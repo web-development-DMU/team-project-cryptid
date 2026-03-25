@@ -2,7 +2,7 @@ import { getCookies } from "https://deno.land/std@0.224.0/http/cookie.ts";
 import { getFlash } from "../tools/flash.js"
 
 
-export function render(page, request) {
+export function render(page, request, user = null) {
     const headers = new Headers();
     headers.set('content-type', 'text/html');
     const flash = getFlash(request.headers, headers)
@@ -18,8 +18,8 @@ export function render(page, request) {
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
             <link rel="stylesheet" href="/styles/header.css">
             <link rel="stylesheet" href="/styles/${page == "home" ? "index" : page}.css">
-            ${page == "calendar" ? '<link rel="stylesheet" href="/styles/addTask.css">' : ''}
-            <script src="/js/${page == "home" ? "index" : page}.js" ${page == 'profile' || page == 'calendar' ? 'defer' : ''}></script>
+            ${page == "calendar" || page == "home" ? '<link rel="stylesheet" href="/styles/addTask.css">' : ''}
+            <script src="/js/${page == "home" ? "index" : page}.js" ${page == 'profile' || page == 'calendar' || page == 'home' ? 'defer' : ''}></script>
             <title>${page[0].toUpperCase() + page.slice(1)}</title>
         </head>
         <body>
@@ -128,70 +128,61 @@ export function render(page, request) {
             break;
         case "home":
             html = headerHTML + `
+                <link rel="stylesheet" src="/styles/addTask.css">
                 <main class="d-flex">
                     <div id="side-l" class="divider">
                         <div id="user-details" class="container-fluid d-flex">
                             <img id="profile-picture" class="rounded-circle" src="/assets/profile-placeholder.jpg">
-                            <p id="username" class="rounded">Username</p>
+                            <p id="username" class="rounded">${user?.username || "Guest"}</p>
                             <div class=" d-flex rounded-circle h-100 border border-primary">
                                 <p id="user-level">XP Level</p>
                             </div>
                         </div>
-                        <!-- MAX OF 9 TASKS ALLOWED TO BE DISPLAYED -->
-                        <div class="task-table rounded">
-                            <!-- placeholders for upcoming tasks -->
-                            <!-- Task IDs will be given based on the name of the task and the data-bs-target will be updated to the same name -->
-                            <!-- clicking the task within the table will either redirect to a task details page, or pop-up a container which gets filled with the details of the clicked task. -->
-                            <div class="upcoming-task d-flex" onclick="location.href='#'">
-                                <p class="upcoming-details">Name1</p>
-                                <p class="upcoming-details middle">Time1</p>
-                                <p class="upcoming-details">XP1</p>
-                            </div>
-                            <div class="upcoming-task d-flex" onclick="location.href='#'">
-                                <p class="upcoming-details">Name1</p>
-                                <p class="upcoming-details middle">Time1</p>
-                                <p class="upcoming-details">XP1</p>
-                            </div>
-                            <div class="upcoming-task d-flex" onclick="location.href='#'">
-                                <p class="upcoming-details">Name1</p>
-                                <p class="upcoming-details middle">Time1</p>
-                                <p class="upcoming-details">XP1</p>
-                            </div>
-                            <div class="upcoming-task d-flex" onclick="location.href='#'">
-                                <p class="upcoming-details">Name1</p>
-                                <p class="upcoming-details middle">Time1</p>
-                                <p class="upcoming-details">XP1</p>
-                            </div>
-                            <div class="upcoming-task d-flex" onclick="location.href='#'">
-                                <p class="upcoming-details">Name1</p>
-                                <p class="upcoming-details middle">Time1</p>
-                                <p class="upcoming-details">XP1</p>
-                            </div>
-                            <div class="upcoming-task d-flex" onclick="location.href='#'">
-                                <p class="upcoming-details">Name1</p>
-                                <p class="upcoming-details middle">Time1</p>
-                                <p class="upcoming-details">XP1</p>
-                            </div>
-                            <div class="upcoming-task d-flex" onclick="location.href='#'">
-                                <p class="upcoming-details">Name1</p>
-                                <p class="upcoming-details middle">Time1</p>
-                                <p class="upcoming-details">XP1</p>
-                            </div>
-                            <div class="upcoming-task d-flex" onclick="location.href='#'">
-                                <p class="upcoming-details">Name1</p>
-                                <p class="upcoming-details middle">Time1</p>
-                                <p class="upcoming-details">XP1</p>
-                            </div>
-                            <div class="upcoming-task last d-flex">
-                                <p class="upcoming-details">Name1</p>
-                                <p class="upcoming-details middle">Time1</p>
-                                <p class="upcoming-details">XP1</p>
-                            </div>
-                            <div class="upcoming-task-btns">
-                                <input type="button" id="view-all-tasks-btn" class="rounded border border-1 border-dark" onclick="location.href='/calendar'" value="View All Tasks">
-                                <input type="button" id="add-task-btn" class="add-task-btn rounded-circle" value="Add Task" onclick="/*display new task section or redirect to new task page*/">
-                            </div>
-                        </div>
+                        <section class="task-table">
+                            <table id="task-table">
+                                <tr>
+                                    <td>Task1</td>
+                                    <td>Time Left</td>
+                                </tr>
+                                <tr>
+                                    <td>Task2</td>
+                                    <td>Time Left</td>
+                                </tr>
+                                <tr>
+                                    <td>Task3</td>
+                                    <td>Time Left</td>
+                                </tr>
+                                <tr>
+                                    <td>Task4</td>
+                                    <td>Time Left</td>
+                                </tr>
+                                <tr>
+                                    <td>Task5</td>
+                                    <td>Time Left</td>
+                                </tr>
+                                <tr>
+                                    <td>Task6</td>
+                                    <td>Time Left</td>
+                                </tr>
+                                <tr>
+                                    <td>Task7</td>
+                                    <td>Time Left</td>
+                                </tr>
+                                <tr>
+                                    <td>Task8</td>
+                                    <td>Time Left</td>
+                                </tr>
+                                <tr>
+                                    <td>Task9</td>
+                                    <td>Time Left</td>
+                                </tr>
+                                <tr>
+                                    <td id="button-container">
+                                        <input type="button" id="view-all-tasks-btn" class="rounded border border-1 border-dark" onclick="location.href='/calendar'" value="View All Tasks">
+                                    </td>
+                                </tr>
+                            </table>
+                        </section>
                     </div>
                     <div id="side-r" class="divider">
                         <p class="recently-collected-title">Recent Items</p>
@@ -224,6 +215,32 @@ export function render(page, request) {
                             </div>
                         </div>
                     </div>
+                    <div id="backgroundCancel" onclick="document.getElementById('taskForm').reset(); document.getElementById('newTask').style.display = 'none'; document.getElementById('backgroundCancel').style.display = 'none'"></div>
+                    <div id="newTask" style="display: none !important;">
+                        <h2>Add New Task</h2>
+                        <form id="taskForm" method="POST" action="/tasks/add">
+                            <section class="d-flex flex-column align-items-center mb-3">
+                                <label for="taskName" class="form-label">Task Name</label>
+                                <input type="text" class="form-control" id="taskName" name="taskName" required>
+                            </section>
+                            <section class="d-flex flex-column align-items-center mb-3">
+                                <label for="taskStartDate" class="form-label">Start Date</label>
+                                <input type="date" class="form-control date-input" id="taskStartDate" name="taskStartDate" required>
+                            </section>
+                            <section class="d-flex flex-column align-items-center mb-3">
+                                <label for="taskEndDate" class="form-label">End Date</label>
+                                <input type="date" class="form-control date-input" id="taskEndDate" name="taskEndDate" required>
+                            </section>
+                            <section class="form-check d-flex flex-row justify-content-center mb-3">
+                                <input type="checkbox" class="form-check-input " id="taskCompleted" name="taskCompleted">
+                                <label for="taskCompleted" class="form-check-label" id="taskCompletedLabel">Completed</label>
+                            </section>
+                            <div id="errorMessage" class=" text-center text-danger mb-3"></div>
+                            <input type="submit" class="btn btn-primary mb-3" value="Save" id="submit" name="submit">
+                            <input type="button" class="btn btn-secondary mb-3" value="Cancel" id="cancel" onclick="document.getElementById('taskForm').reset(); document.getElementById('newTask').style.display = 'none'; document.getElementById('backgroundCancel').style.display = 'none'">
+                            <input type="hidden" id="taskId" name="taskId">
+                        </form>
+                    </div>
                 </main>
             `;
             break;
@@ -232,7 +249,7 @@ export function render(page, request) {
                 <main class="d-flex">
                     <div id="side-l" class="d-flex">
                         <!-- This may not be used at all -->
-                        <h1 id="page-username">My Profile</h1>
+                        <h1 id="page-username">"My Profile"</h1>
                         <br>
                         <section class="border border-2 border-dark rounded">
                             <h3>Items Showcase</h3>
@@ -269,7 +286,7 @@ export function render(page, request) {
                             <p id="level-display" class="profile-addition border border-1 border-dark rounded-circle">27</p>
                         </div>
                         <div id="container-user-details">
-                            <p id="username">Username</p>
+                            <p id="username">${user?.username || "Guest"}</p>
                             <textarea id="bio" class="border border-2 border-dark rounded">About Me</textarea>
                         </div>
                         <div id="container-btns">
@@ -282,6 +299,7 @@ export function render(page, request) {
             break;
         case "calendar":
             html = headerHTML + `
+                <link rel="stylesheet" href="/styles/addTask.css">
                 <main class="d-flex w-100">
                     <div id="calendar-container">
                         <div class="calendar-header">
@@ -314,17 +332,17 @@ export function render(page, request) {
                                         <td class="cell-shrink">35XP</td>
                                     </tr>
                                     <tr>
-                                        <td>Task 2</td>
+                                        <td>Task 4</td>
                                         <td class="cell-shrink">Time Left</td>
                                         <td class="cell-shrink">10XP</td>
                                     </tr>
                                     <tr>
-                                        <td>Task 2</td>
+                                        <td>Task 5</td>
                                         <td class="cell-shrink">Time Left</td>
                                         <td class="cell-shrink">10XP</td>
                                     </tr>
                                     <tr>
-                                        <td>Task 2</td>
+                                        <td>Task 6</td>
                                         <td class="cell-shrink">Time Left</td>
                                         <td class="cell-shrink">10XP</td>
                                     </tr>

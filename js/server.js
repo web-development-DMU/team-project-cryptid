@@ -6,16 +6,17 @@ import { notFound } from "../handlers/notFound.js";
 import { render } from "../tools/render.js";
 import { loginController } from "../controllers/login.js";
 import { createUserController } from "../controllers/createUser.js";
+import { getUserByUsername } from "../models/accounts.js";
 import { logoutController } from "../controllers/logout.js";
-import { addTaskController, editTaskController } from "../controllers/taskController.js";
-import { getTasksByDateController } from "../controllers/taskController.js";
+import { addTaskController, editTaskController, getTasksByDateController, getTasksByUserController } from "../controllers/taskController.js";
 
 export default async function server(request) {
   let url = new URL(request.url),
         path = url.pathname,
         method = request.method,
         cookies = getCookies(request.headers),
-        session = cookies.session;
+        session = cookies.session,
+        user = await getUserByUsername(session);
 
   console.log(`${request.method} ${url.pathname}`);
 
@@ -71,6 +72,10 @@ export default async function server(request) {
     return await editTaskController(request);
   }
 
+  // Handling all tasks (end date ascending)
+  if (path === "/tasks/all" && method === "GET") {
+    return getTasksByUserController(request);
+  }
 
   // Getting tasks by date
   if (path === "/tasks/by-date" && method === "GET") {
@@ -84,8 +89,8 @@ export default async function server(request) {
   if (path === "/register" && method === "GET") return render("register", request);
 
   if (session) {
-    if (path === "/home" && method === "GET") return render("home", request);
-    if (path === "/profile" && method === "GET") return render("profile", request);
+    if (path === "/home" && method === "GET") return render("home", request, user);
+    if (path === "/profile" && method === "GET") return render("profile", request, user);
     if (path === "/calendar" && method === "GET") return render("calendar", request);
     if (path === "/leaderboard" && method === "GET") return render("leaderboard", request);
     if (path === "/preferences" && method === "GET") return render("preferences", request);

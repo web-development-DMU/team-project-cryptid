@@ -90,11 +90,12 @@ function changeMonth(direction) {
 }
 
 function getTaskTimeLeft(startDate, endDate) {
-    const now = new Date(Date.now()); // current time
-    const end = new Date(endDate);
+    const now = new Date(new Date(Date.now()).toISOString().split("T")[0]), // current time
+        end = new Date(endDate);
 
     const diffMs = end - now; // difference in milliseconds
-    if (diffMs <= 86400000 && diffMs >= 0) return "Due today"; // exactly one day left
+    console.log(diffMs);
+    if (diffMs == 0) return "Due today"; // exactly one day left
     else if (diffMs < 0) return "Past due"; // already finished
 
     // Convert milliseconds to days, hours, minutes
@@ -103,7 +104,7 @@ function getTaskTimeLeft(startDate, endDate) {
     const minutes = Math.floor((diffMs / (1000 * 60)) % 60);
 
     let result = "";
-    if (days > 0) result += `${days}d `;
+    if (days >= 0) result += `${days}d `;
 
     return result;
 }

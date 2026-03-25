@@ -1,6 +1,6 @@
 import { addTask, editTask } from "../models/task.js";
 import { getCookies } from "https://deno.land/std@0.224.0/http/cookie.ts";
-import { getTasksByDate } from "../models/task.js";
+import { getTasksByDate, getTasksByUser } from "../models/task.js";
 import { setFlash, getFlash } from "../tools/flash.js"
 
 export async function addTaskController(request) {
@@ -106,6 +106,22 @@ export async function getTasksByDateController(request) {
         const tasks = getTasksByDate(userId, date);
 
         return new Response(JSON.stringify(Array.isArray(tasks) ? tasks : []), {
+            headers: { "Content-Type": "application/json" },
+        });
+    } catch (err) {
+        return new Response(JSON.stringify({ error: err.message }), {
+            status: 500,
+        });
+    }
+}
+
+export async function getTasksByUserController(request) {
+    const userId = getCookies(request.headers).session;
+
+    try {
+        const tasks = await getTasksByUser(userId);
+
+        return new Response(JSON.stringify(tasks), {
             headers: { "Content-Type": "application/json" },
         });
     } catch (err) {

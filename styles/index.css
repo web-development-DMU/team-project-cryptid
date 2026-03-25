@@ -10,150 +10,146 @@
             margin-top: 0px;
         }
     }
+    
     body {
         max-height: 1000px;
     }
+
     .task-table {
-        font-size: 0.5rem;
+        td {
+            font-size: 1.2rem;
+        }
     }
+
+    table {
+        width: 100px !important;
+    }
+
     #view-all-tasks-btn, #add-task-btn {
-        font-size: 2rem !important;
+        font-size: 1.2rem !important;
     }
+
     #add-task-btn {
-        width: 90px;
-        height: 90px;
-        size: 150px !;
+        width: 60px;
+        height: 60px;
     }
+
     #recently-collected {
         margin-top: 10px !important;
         width: 100% !important;
         align-items: center;
         text-align: center;
+
         img {
             max-width: 100px;
         }
     }
+
     #side-r {
-        transform: translate(0, 20px);
+        margin-top: 30px !important;
     }
 }
+
 body {
     height: fit-content !important;
-    table {
-        display: flex;
-        width: 450px !important;
-    }
-    table, tr, td {
-        text-align: center !important;
-        width: 450px !important;
-        font-size: 1.5rem;
-        height: 80px;
-    }
+}
+
+table, table tr, table td {
+    text-align: center !important;
+    width: 300px;
+    font-size: 1.5rem;
+    border: 1px solid black;
 }
 .d-flex {
     align-items: center !important;
     justify-content: space-between;
-}    
+}
+
+.button-container {
+    width: 600px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px 100px;
+}
+
 .add-task-btn {
     width: 50px;
     height: 50px;
     line-height: 1em;
     text-align: center;
     text-wrap: inherit;
+    font-size: 1.1rem;
 }
+
 .task-table {
-    display: flex;
-    flex-direction: column;
     width: 100%;
-    height: 500px !important ;
+    height: 500px !important;
     max-height: 900px !important;
-    .upcoming-task {
-        font-size: 1.5rem;
-        border: 2px solid black;
-        border-bottom: 0;
-        * {
-            text-align: center;
-            margin: 0px;
-        }
+    table {
+        min-width: 600px;
     }
-    .upcoming-details {
-        padding: 5px 30px 5px 30px !important;
-        width: 34%;
-        text-wrap: wrap;
-    }
-    .upcoming-details.middle {
-        border-left: 2px solid black;
-        border-right: 2px solid black;
-    }
-    .upcoming-task.last {
-        border-bottom: 2px solid black;
-    }
-    .upcoming-task-btns {
-        padding: 0 40px;
-        width: inherit;
-        align-items: center !important;
-        align-content: center !important;
-        margin-top: 5px;
-        font-size: 1rem;
-        input {
-            vertical-align: middle !important;
-        }
-        #view-all-tasks-btn {
-            float: left;
-            bottom: 5px;
-            margin-top: 12px;
-        }
-        #add-task-btn {
-            float: right;
-        }
+    table , tr, td {
+        table-layout: fixed;
+        padding: 5px;
+        height: 55px;
     }
 }
+
 #user-details {
     width: fit-content;
     min-width: 200px;
     max-width: 445px;
-    border: 1px solid black !important;
     padding: 0 !important;
     margin-top: 10px;
     margin-bottom: 20px !important;
+
     * {
         margin: 0;
     }
+
     #username {
         font-size: 2.5rem;
         text-wrap: wrap;
         padding: 15px;
     }
+
     div.rounded-circle {
         height: 40px !important;
         width: 40px !important;
         line-height: 1em;
         text-align: center;
     }
+
     img {
         max-width: 40px;
     }
 }
+
 #recently-collected {
     max-width: 700px;
     width: 700px;
     margin-top: 90px;
     margin-bottom: 50px;
     border: 3px solid black;
+
     img {
         max-width: 190px;
         width: 100%;
     }
 }
+
 .recent-activity {
     padding: 10px;
     text-align: center;
     font-size: 1.5rem;
     border: 1px solid black;
 }
+
 .divider {
     margin: 10px 50px;
 }
+
 #side-r {
     margin-top: -100px;
     p {
@@ -161,6 +157,14 @@ body {
         font-size: 2rem;
     }
 }
+
 #side-L {
     width: 100%;
+}
+
+#button-container {
+    display: flex;
+    border: none;
+    width: 200% !important;
+    justify-content: center;
 }

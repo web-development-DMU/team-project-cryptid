@@ -27,3 +27,12 @@ export function getTasksByDate(userId, date) {
     AND end_date >= :date
   `).all({ userId, date }) || [];
 }
+
+// Get all tasks for user, sort by end date (ascending)
+export function getTasksByUser(userId) {
+  return db.prepare(`
+    SELECT * FROM tasks
+    WHERE user_id = :userId
+    ORDER BY date(end_date) ASC
+  `).all({ userId }) || [];
+}
