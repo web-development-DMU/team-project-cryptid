@@ -1,0 +1,35 @@
+export function viewLogin(flash) {
+  return `
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="/public/styles/login.css">
+        <link rel="stylesheet" href="/public/styles/highContrastToggle.css">
+        <title>Login</title>
+    </head>
+    <body>
+        <main>
+            <h1 id="title">Login</h1><br>
+            <form id="login" class="d-flex flex-column", method="POST">
+                <label for="email">Email Address</label><br>
+                <input type="text" id="email" name="email" class="rounded"><br>
+                <label for="password">Password</label><br>
+                <input type="password" id="password" name="password" class="rounded"><br>
+                ${flash}
+                <input type="submit" id="submit" value="Login"><br>
+                <p id="switch">No account? <a href="/register">Register here</a></p>
+            </form>
+            <!-- Rounded switch -->
+            <label class="switch">
+                <input type="checkbox">
+                <span class="slider round"></span>
+            </label>
+        </main>
+    </body>
+    </html>
+  `;
+}

@@ -1,0 +1,53 @@
+export function viewCalendar() {
+    return `
+        <link rel="stylesheet" href="/public/styles/addTask.css">
+        <main class="d-flex w-100">
+            <div id="calendar-container">
+                <div class="calendar-header">
+                    <button onclick="changeMonth(-1)">←</button>
+                    <h2 id="month-year"></h2>
+                    <button onclick="changeMonth(1)">→</button>
+                </div>
+                <div class="calendar-grid" id="calendar"></div>
+            </div>
+            <div id="task-panes" class="d-flex">
+                <div id="daily-tasks">
+                    <p id="daily-tasks-date">
+                        March 3rd 2026
+                    </p>
+                    <section id="task-table-container">
+                        <table></table>
+                    </section>
+                        <!-- If tasks can span multiple days, add task will autofill the start date for the day being viewed -->
+                        <input type="button" id="add-task-btn" class="add-task-btn rounded" value="Add Task" onclick="document.getElementById('taskForm').action = '/tasks/add'; document.getElementById('newTask').style.display = document.getElementById('newTask').style.display === 'none' ? 'flex' : 'none'; document.querySelector('#newTask h2').textContent = 'New Task'; document.getElementById('backgroundCancel').style.display = 'block'; document.getElementById('taskCompleted').style.display = 'none'; document.getElementById('taskCompletedLabel').style.display = 'none'; document.getElementById('taskForm').reset(); document.getElementById('taskCompleted').checked = false;">
+                </div>
+            </div>
+        </main>
+        <div id="backgroundCancel" onclick="document.getElementById('taskForm').reset(); document.getElementById('newTask').style.display = 'none'; document.getElementById('backgroundCancel').style.display = 'none'"></div>
+        <div id="newTask" style="display: none !important;">
+            <h2>Add New Task</h2>
+            <form id="taskForm" method="POST" action="/tasks/add">
+                <section class="d-flex flex-column align-items-center mb-3">
+                    <label for="taskName" class="form-label">Task Name</label>
+                    <input type="text" class="form-control" id="taskName" name="taskName" required>
+                </section>
+                <section class="d-flex flex-column align-items-center mb-3">
+                    <label for="taskStartDate" class="form-label">Start Date</label>
+                    <input type="date" class="form-control date-input" id="taskStartDate" name="taskStartDate" required>
+                </section>
+                <section class="d-flex flex-column align-items-center mb-3">
+                    <label for="taskEndDate" class="form-label">End Date</label>
+                    <input type="date" class="form-control date-input" id="taskEndDate" name="taskEndDate" required>
+                </section>
+                <section class="form-check d-flex flex-row justify-content-center mb-3">
+                    <input type="checkbox" class="form-check-input " id="taskCompleted" name="taskCompleted">
+                    <label for="taskCompleted" class="form-check-label" id="taskCompletedLabel">Completed</label>
+                </section>
+                <div id="errorMessage" class=" text-center text-danger mb-3"></div>
+                <input type="submit" class="btn btn-primary mb-3" value="Save" id="submit" name="submit">
+                <input type="button" class="btn btn-secondary mb-3" value="Cancel" id="cancel" onclick="document.getElementById('taskForm').reset(); document.getElementById('newTask').style.display = 'none'; document.getElementById('backgroundCancel').style.display = 'none'">
+                <input type="hidden" id="taskId" name="taskId">
+            </form>
+        </div>
+    `;
+}
