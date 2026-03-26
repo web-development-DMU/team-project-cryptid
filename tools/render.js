@@ -16,10 +16,10 @@ export function render(page, request, user = null) {
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-            <link rel="stylesheet" href="/styles/header.css">
-            <link rel="stylesheet" href="/styles/${page == "home" ? "index" : page}.css">
-            ${page == "calendar" || page == "home" ? '<link rel="stylesheet" href="/styles/addTask.css">' : ''}
-            <script src="/js/${page == "home" ? "index" : page}.js" ${page == 'profile' || page == 'calendar' || page == 'home' ? 'defer' : ''}></script>
+            <link rel="stylesheet" href="/public/styles/header.css">
+            <link rel="stylesheet" href="/public/styles/${page == "home" ? "index" : page}.css">
+            ${page == "calendar" || page == "home" ? '<link rel="stylesheet" href="/public/styles/addTask.css">' : ''}
+            <script src="/public/js/${page == "home" ? "index" : page}.js" ${page == 'profile' || page == 'calendar' || page == 'home' ? 'defer' : ''}></script>
             <title>${page[0].toUpperCase() + page.slice(1)}</title>
         </head>
         <body>
@@ -44,7 +44,7 @@ export function render(page, request, user = null) {
                 <!-- Profile picture -->
                 <div id="profile-dropdown" class="dropdown ms-auto">
                     <a href="#" class="d-block link-dark text-decoration-none" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="/assets/profile-placeholder.jpg" alt="User" class="rounded-circle profile-img">
+                        <img src="/assets/profile-placeholder.jpg" alt="User" class="rounded-circle profile-img" alt="User's profile picture in page header">
                     </a>
 
                     <!-- Profile dropdown -->
@@ -69,7 +69,7 @@ export function render(page, request, user = null) {
                     <meta name="viewport" content="width=device-width, initial-scale=1.0">
                     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
                     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-                    <link rel="stylesheet" href="/styles/login.css">
+                    <link rel="stylesheet" href="/public/styles/login.css">
                     <title>Login</title>
                 </head>
                 <body>
@@ -84,6 +84,7 @@ export function render(page, request, user = null) {
                             <input type="submit" id="submit" value="Login"><br>
                             <p id="switch">No account? <a href="/register">Register here</a></p>
                         </form>
+                        <input type="toggle" value="High Contrast Mode">
                     </main>
                 </body>
                 </html>
@@ -98,7 +99,7 @@ export function render(page, request, user = null) {
                     <meta name="viewport" content="width=device-width, initial-scale=1.0">
                     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
                     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-                    <link rel="stylesheet" href="/styles/login.css">
+                    <link rel="stylesheet" href="/public/styles/login.css">
                     <title>Register</title>
                 </head>
                 <body id="register-main">
@@ -128,11 +129,11 @@ export function render(page, request, user = null) {
             break;
         case "home":
             html = headerHTML + `
-                <link rel="stylesheet" src="/styles/addTask.css">
+                <link rel="stylesheet" src="/public/styles/addTask.css">
                 <main class="d-flex">
                     <div id="side-l" class="divider">
                         <div id="user-details" class="container-fluid d-flex">
-                            <img id="profile-picture" class="rounded-circle" src="/assets/profile-placeholder.jpg">
+                            <img id="profile-picture" class="rounded-circle" src="/assets/profile-placeholder.jpg" alt="User's profile picture">
                             <p id="username" class="rounded">${user?.username || "Guest"}</p>
                             <div class=" d-flex rounded-circle h-100 border border-primary">
                                 <p id="user-level">XP Level</p>
@@ -188,16 +189,16 @@ export function render(page, request, user = null) {
                         <p class="recently-collected-title">Recent Items</p>
                         <div id="recently-collected" class="d-flex">
                             <div class="recent-item">
-                                <img src="/assets/collectible-placeholder.jpg">
+                                <img src="/assets/collectible-placeholder.jpg" alt="Recent collectible">
                             </div>
                             <div class="recent-item">
-                                <img src="/assets/collectible-placeholder.jpg">
+                                <img src="/assets/collectible-placeholder.jpg" alt="Recent collectible">
                             </div>
                             <div class="recent-item">
-                                <img src="/assets/collectible-placeholder.jpg">
+                                <img src="/assets/collectible-placeholder.jpg" alt="Recent collectible">
                             </div>
                             <div class="recent-item">
-                                <img src="/assets/collectible-placeholder.jpg">
+                                <img src="/assets/collectible-placeholder.jpg" alt="Recent collectible">
                             </div>
                         </div>
                         <div id="recent-activity">
@@ -255,19 +256,19 @@ export function render(page, request, user = null) {
                             <h3>Items Showcase</h3>
                             <div id="container-item-showcase">
                                 <div class="favourite-item">
-                                    <img src="/assets/collectible-placeholder.jpg">
+                                    <img src="/assets/collectible-placeholder.jpg" alt="Recent collectible">
                                 </div>
                                 <div class="favourite-item">
-                                    <img src="/assets/collectible-placeholder.jpg">
+                                    <img src="/assets/collectible-placeholder.jpg" alt="Recent collectible">
                                 </div>
                                 <div class="favourite-item">
-                                    <img src="/assets/collectible-placeholder.jpg">
+                                    <img src="/assets/collectible-placeholder.jpg" alt="Recent collectible">
                                 </div>
                                 <div class="favourite-item">
-                                    <img src="/assets/collectible-placeholder.jpg">
+                                    <img src="/assets/collectible-placeholder.jpg" alt="Recent collectible">
                                 </div>
                                 <div class="favourite-item">
-                                    <img src="/assets/collectible-placeholder.jpg">
+                                    <img src="/assets/collectible-placeholder.jpg" alt="Recent collectible">
                                 </div>
                             </div>
                         </section>
@@ -280,7 +281,7 @@ export function render(page, request, user = null) {
                     <!-- this side will be placed first when page collapses -->
                     <div id="side-r" class="d-flex">
                         <div class="container-profile">
-                            <img id="profile-picture" class="rounded-circle" src="/assets/profile-placeholder.jpg">
+                            <img id="profile-picture" class="rounded-circle" src="/assets/profile-placeholder.jpg" alt="User's profile picture">
                             <!-- This button will be replaced with an image of a pencil for "edit" -->
                             <input type="button" id="change-pfp-btn" class="profile-addition border border-1 border-dark rounded-circle" value="Change">
                             <p id="level-display" class="profile-addition border border-1 border-dark rounded-circle">27</p>
@@ -299,7 +300,7 @@ export function render(page, request, user = null) {
             break;
         case "calendar":
             html = headerHTML + `
-                <link rel="stylesheet" href="/styles/addTask.css">
+                <link rel="stylesheet" href="/public/styles/addTask.css">
                 <main class="d-flex w-100">
                     <div id="calendar-container">
                         <div class="calendar-header">

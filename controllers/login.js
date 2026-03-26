@@ -1,6 +1,6 @@
 import { setCookie } from "https://deno.land/std@0.224.0/http/cookie.ts";
 import { getUserByUsername, getUserByEmail, getPasswordByEmail, userExists } from "../models/accounts.js";
-import { setFlash } from "../tools/flash.js"
+import { setFlash } from "../tools/flash.js";
 
 export async function loginController(request) {
   

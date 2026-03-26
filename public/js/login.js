@@ -1,4 +1,6 @@
-import getId from "/js/getid.js";
+function getId(what) {
+    return document.getElementById(what);
+}
 
 getId("login").addEventListener("submit", async (e) => {
     e.preventDefault();

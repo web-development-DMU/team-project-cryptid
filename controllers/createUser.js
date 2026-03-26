@@ -1,8 +1,7 @@
 import { setCookie } from "https://deno.land/std@0.224.0/http/cookie.ts";
 import { getCookies } from "https://deno.land/std@0.224.0/http/cookie.ts";
 import { createUser, getUserByUsername, getUserByEmail } from "../models/accounts.js";
-import { setFlash } from "../tools/flash.js"
-import getId from "../js/getid.js";
+import { setFlash } from "../tools/flash.js";
 
 /**
  * Controller to handle user registration

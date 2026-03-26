@@ -96,7 +96,7 @@ export default async function server(request) {
     if (path === "/preferences" && method === "GET") return render("preferences", request);
     if (path === "/progression" && method === "GET") return render("progression", request);
     if (path === "/logout" && method === "GET") return render("logout", request);
-  } else if (!path.startsWith("/styles") && !path.startsWith("/assets") && !path.startsWith("/js")) {
+  } else if (!path.startsWith("/styles") && !path.startsWith("/assets") && !path.startsWith("/js") && !path.startsWith("/public")) {
     return new Response(null, {
       status: 302,
       headers: {Location: "/login"},
