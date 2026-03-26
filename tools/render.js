@@ -398,6 +398,10 @@ export function render(page, request, user = null) {
             `;
             break;
     }
+
+    if (!html || html.trim() === "") {
+        return new Response("Not Found", { status: 404 });
+    }
     
     return new Response(html, { headers })
 }

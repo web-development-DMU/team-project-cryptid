@@ -24,7 +24,7 @@ export async function loginController(request) {
       name: "session",
       value: user.username,
       path: "/",
-      // maxAge: 60 * 2 // 2 minutes. Lengthen when login is polished
+      //maxAge: 60 * 2 // 2 minutes. Lengthen when login is polished
     });
     headers.set('location', '/home');
     return new Response(null, { headers, status: 303 });

@@ -2,18 +2,18 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 <script src="/js/header.js"></script>
 <link rel="stylesheet" href="/styles/index.css">
+<link rel="stylesheet" src="/styles/addTask.css">
 <main class="d-flex">
     <div id="side-l" class="divider">
         <div id="user-details" class="container-fluid d-flex">
             <img id="profile-picture" class="rounded-circle" src="/assets/profile-placeholder.jpg">
-            <p id="username" class="rounded">Username</p>
+            <p id="username" class="rounded">${user?.username || "Guest"}</p>
             <div class=" d-flex rounded-circle h-100 border border-primary">
                 <p id="user-level">XP Level</p>
             </div>
         </div>
-        <!-- MAX OF 9 TASKS ALLOWED TO BE DISPLAYED -->
-         <section class="task-table">
-            <table>
+        <section class="task-table">
+            <table id="task-table">
                 <tr>
                     <td>Task1</td>
                     <td>Time Left</td>
@@ -50,12 +50,13 @@
                     <td>Task9</td>
                     <td>Time Left</td>
                 </tr>
+                <tr>
+                    <td id="button-container">
+                        <input type="button" id="view-all-tasks-btn" class="rounded border border-1 border-dark" onclick="location.href='/calendar'" value="View All Tasks">
+                    </td>
+                </tr>
             </table>
-            <section class="button-container">
-                <td><input type="button" id="view-all-tasks-btn" class="rounded border border-1 border-dark" onclick="location.href='/calendar'" value="View All Tasks"></td>
-                <td><input type="button" id="add-task-btn" class="add-task-btn rounded-circle" value="Add Task" onclick="/*display new task section or redirect to new task page*/"></td>
-            </section>
-         </section>
+        </section>
     </div>
     <div id="side-r" class="divider">
         <p class="recently-collected-title">Recent Items</p>
@@ -87,5 +88,31 @@
                 Friend has reached new task streak
             </div>
         </div>
+    </div>
+    <div id="backgroundCancel" onclick="document.getElementById('taskForm').reset(); document.getElementById('newTask').style.display = 'none'; document.getElementById('backgroundCancel').style.display = 'none'"></div>
+    <div id="newTask" style="display: none !important;">
+        <h2>Add New Task</h2>
+        <form id="taskForm" method="POST" action="/tasks/add">
+            <section class="d-flex flex-column align-items-center mb-3">
+                <label for="taskName" class="form-label">Task Name</label>
+                <input type="text" class="form-control" id="taskName" name="taskName" required>
+            </section>
+            <section class="d-flex flex-column align-items-center mb-3">
+                <label for="taskStartDate" class="form-label">Start Date</label>
+                <input type="date" class="form-control date-input" id="taskStartDate" name="taskStartDate" required>
+            </section>
+            <section class="d-flex flex-column align-items-center mb-3">
+                <label for="taskEndDate" class="form-label">End Date</label>
+                <input type="date" class="form-control date-input" id="taskEndDate" name="taskEndDate" required>
+            </section>
+            <section class="form-check d-flex flex-row justify-content-center mb-3">
+                <input type="checkbox" class="form-check-input " id="taskCompleted" name="taskCompleted">
+                <label for="taskCompleted" class="form-check-label" id="taskCompletedLabel">Completed</label>
+            </section>
+            <div id="errorMessage" class=" text-center text-danger mb-3"></div>
+            <input type="submit" class="btn btn-primary mb-3" value="Save" id="submit" name="submit">
+            <input type="button" class="btn btn-secondary mb-3" value="Cancel" id="cancel" onclick="document.getElementById('taskForm').reset(); document.getElementById('newTask').style.display = 'none'; document.getElementById('backgroundCancel').style.display = 'none'">
+            <input type="hidden" id="taskId" name="taskId">
+        </form>
     </div>
 </main>

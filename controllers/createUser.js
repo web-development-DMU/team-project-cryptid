@@ -55,8 +55,8 @@ export async function createUserController(request) {
   setCookie(headers, {
     name: "session",
     value: username,
-    path: "/",    //no maxage yet as to be able to polish login and register
-    //maxAge: 20 // 10 seconds. Lengthen when register is polished
+    path: "/",
+    //maxAge: 60 * 2 // 2 minutes. Lengthen when register is polished
   })
   headers.set('Location', '/home');
   return new Response(null, { headers, status: 303 });
